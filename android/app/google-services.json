@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "825528517682",
+    "firebase_url": "https://quigolaco-cc7c7.firebaseio.com",
+    "project_id": "quigolaco-cc7c7",
+    "storage_bucket": "quigolaco-cc7c7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:825528517682:android:2b72ffb55d59f8d0dce82b",
+        "android_client_info": {
+          "package_name": "br.net.fernandocastro.quigolaco"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "825528517682-l5sob1l7mf54m9f7krdf2rdnhqgtqio6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.net.fernandocastro.quigolaco",
+            "certificate_hash": "1334c2b6b4f9c56ef68740156471d2eb624b7a2d"
+          }
+        },
+        {
+          "client_id": "825528517682-5m4f7v8ebn7qgj16egrmb3h80o49q3v7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXNA6JZKhyqGqrQah5LHoXydkXTOzaO3I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "825528517682-5m4f7v8ebn7qgj16egrmb3h80o49q3v7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
