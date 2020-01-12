@@ -7,6 +7,7 @@ import 'componentes/Component.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginPage extends StatefulWidget {
+
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -14,12 +15,16 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> with Component {
   bool isLoading = false;
 
+  String usuario;
+
   TextEditingController _controllerEmail = TextEditingController();
   TextEditingController _controllerSenha = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
 
   String _mensagemErro = "";
+
+
 
   _validarCampos() {
     //Recupera dados dos campos
@@ -84,8 +89,8 @@ class _LoginPageState extends State<LoginPage> with Component {
         .signInWithEmailAndPassword(
             email: usuario.email, password: usuario.senha)
         .then((firebaseUser) {
-      Navigator.push(context, MaterialPageRoute(builder: (context) {
-        return HomePage();
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+        return HomePage(usuarioL: firebaseUser.email);
       }));
     }).catchError((error) {
       setState(() {
@@ -118,8 +123,10 @@ class _LoginPageState extends State<LoginPage> with Component {
 
     if (usuarioLogado != null) {
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => HomePage()));
+          context, MaterialPageRoute(builder: (context) => HomePage(usuarioL: usuarioLogado.email,)));
     }
+
+
   }
 
   @override

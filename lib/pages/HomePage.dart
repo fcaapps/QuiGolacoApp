@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:quigolaco/pages/LoginPage.dart';
 import 'package:quigolaco/pages/drawer/AssistenciasPage.dart';
 import 'package:quigolaco/pages/drawer/ConfigPage.dart';
 import 'package:quigolaco/pages/drawer/Defesas.dart';
@@ -10,19 +12,30 @@ import 'drawer/GolsPage.dart';
 import 'drawer/JogadoresPage.dart';
 
 class HomePage extends StatefulWidget {
-  final String usuario;
+  final String usuarioL;
 
-  const HomePage({Key key, this.usuario}) : super(key: key);
+  const HomePage({Key key, this.usuarioL}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  String usuario;
+
+  Future _usuarioLogado() async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    FirebaseUser usuarioLogado = await auth.currentUser();
+    if (usuarioLogado != null) {
+      usuario = usuarioLogado.email;
+    }
+  }
+
   @override
   void initState() {
     super.initState();
-    print(this.widget.usuario);
+   _usuarioLogado();
+   print(this.widget.usuarioL);
   }
 
   GlobalKey<ScaffoldState> _keyScaffold = GlobalKey<ScaffoldState>();
@@ -44,11 +57,20 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       key: _keyScaffold,
       drawer: DrawerPersonalizado(
-        usuario: widget.usuario,
+        usuario: this.widget.usuarioL,
         pageController: _pageControl,
         onPressed: (index) {
           _keyScaffold.currentState.openEndDrawer();
           _pageControl.jumpToPage(index);
+          if (index == 7) {
+            FirebaseAuth auth = FirebaseAuth.instance;
+            auth.signOut();
+            if (usuario != null) {
+              //Navigator.of(context).pop();
+              Navigator.pushReplacement(
+                  context, MaterialPageRoute(builder: (context) => LoginPage()));
+            }
+          }
         },
       ),
       appBar: AppBar(
@@ -78,44 +100,58 @@ class _HomePageState extends State<HomePage> {
         controller: _pageControl,
         children: pages,
       ),
-      bottomNavigationBar: BottomNavigationBar(items: <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
-            icon: Icon(
-              Icons.home,
-              color: Color(0XFF6F5A5B),
-            ),
-            title: Text(
-              'Home',
-              style: TextStyle(
-                fontFamily: 'Roboto',
-                color: Color(0XFF6F5A5B),
-              ),
-            )),
-        BottomNavigationBarItem(
-            icon: Icon(
-              Icons.list,
-              color: Color(0XFF6F5A5B),
-            ),
-            title: Text(
-              'Ranking',
-              style: TextStyle(
-                fontFamily: 'Roboto',
-                color: Color(0XFF6F5A5B),
-              ),
-            )),
-        BottomNavigationBarItem(
-            icon: Icon(
-              Icons.blur_circular,
-              color: Color(0XFF6F5A5B),
-            ),
-            title: Text(
-              'Gols',
-              style: TextStyle(
-                fontFamily: 'Roboto',
-                color: Color(0XFF6F5A5B),
-              ),
-            )),
-      ]),
+      bottomNavigationBar: BottomAppBar(
+        color: Color(0XFF4E7CA0),
+        child: Padding(
+          padding: EdgeInsets.all(16),
+          child: Container(
+            height: 20,
+          ),
+        )
+      ),
+//      bottomNavigationBar: BottomNavigationBar(
+//          onTap: (index) {
+//            _pageControl.jumpToPage(index);
+//          },
+//          items: <BottomNavigationBarItem>[
+//        BottomNavigationBarItem(
+//
+//            icon: Icon(
+//              Icons.home,
+//              color: Color(0XFF6F5A5B),
+//            ),
+//            title: Text(
+//              'Home',
+//              style: TextStyle(
+//                fontFamily: 'Roboto',
+//                color: Color(0XFF6F5A5B),
+//              ),
+//            )),
+//        BottomNavigationBarItem(
+//            icon: Icon(
+//              Icons.list,
+//              color: Color(0XFF6F5A5B),
+//            ),
+//            title: Text(
+//              'Ranking',
+//              style: TextStyle(
+//                fontFamily: 'Roboto',
+//                color: Color(0XFF6F5A5B),
+//              ),
+//            )),
+//        BottomNavigationBarItem(
+//            icon: Icon(
+//              Icons.blur_circular,
+//              color: Color(0XFF6F5A5B),
+//            ),
+//            title: Text(
+//              'Gols',
+//              style: TextStyle(
+//                fontFamily: 'Roboto',
+//                color: Color(0XFF6F5A5B),
+//              ),
+//            )),
+//      ]),
 //      bottomNavigationBar: BottomAppBar(
 //        color: Colors.white,
 //        child: Container(

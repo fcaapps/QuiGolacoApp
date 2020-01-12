@@ -26,7 +26,7 @@ class DrawerPersonalizado extends StatelessWidget {
                   children: <Widget>[
                     Container(
                       margin: EdgeInsets.only(top: 20, left: 20),
-                      height: 80,
+                      height: 120,
                       width: double.infinity,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -52,7 +52,7 @@ class DrawerPersonalizado extends StatelessWidget {
                             ],
                           ),
                           Text(
-                            'Bem-vindo, $usuario...',
+                            'Bem-vindo, $usuario',
                             style: TextStyle(
                                 fontFamily: 'Roboto',
                                 fontSize: 20,
@@ -191,7 +191,7 @@ class DrawerPersonalizado extends StatelessWidget {
                     ),
                     ListTile(
                       leading: Icon(
-                        Icons.close,
+                        Icons.exit_to_app,
                         color: Colors.black54,
                       ),
                       title: Text(
@@ -202,6 +202,10 @@ class DrawerPersonalizado extends StatelessWidget {
                           color: Colors.black54,
                         ),
                       ),
+                      onTap: () {
+                        //Navigator.of(context).pop();
+                        onPressed(7);
+                      },
                     ),
                   ],
                 ),
