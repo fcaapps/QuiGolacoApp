@@ -140,13 +140,28 @@ class _LoginPageState extends State<LoginPage> with Component {
                 headerLogin(),
                 logoLogin(),
                 Padding(
-                  padding: EdgeInsets.only(top: 310, left: 30, right: 30),
-                  child: SingleChildScrollView(
-                      child: Form(
-                    key: _formKey,
-                    child: Column(
-                      children: <Widget>[
-                        Container(
+                    padding: EdgeInsets.only(top: 310, left: 30, right: 30),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                              padding: EdgeInsets.only(top: 10),
+                              child: txtfieldLogin(
+                                  altura: 55,
+                                  backColor: Colors.white,
+                                  blurR: 10,
+                                  borderR: 10,
+                                  borderShadowColor: Color(0XFF7094AE),
+                                  fSize: 20,
+                                  icon: Icons.email,
+                                  iconColor: Color(0XFF7094AE),
+                                  obscText: false,
+                                  hText: 'E-mail',
+                                  sizeIcon: 30,
+                                  controll: _controllerEmail,
+                                  textInputType: TextInputType.emailAddress)),
+                          Container(
                             padding: EdgeInsets.only(top: 10),
                             child: txtfieldLogin(
                                 altura: 55,
@@ -155,29 +170,13 @@ class _LoginPageState extends State<LoginPage> with Component {
                                 borderR: 10,
                                 borderShadowColor: Color(0XFF7094AE),
                                 fSize: 20,
-                                icon: Icons.email,
+                                icon: Icons.no_encryption,
                                 iconColor: Color(0XFF7094AE),
-                                obscText: false,
-                                hText: 'E-mail',
+                                obscText: true,
+                                hText: 'Senha',
                                 sizeIcon: 30,
-                                controll: _controllerEmail,
-                                textInputType: TextInputType.emailAddress)),
-                        Container(
-                          padding: EdgeInsets.only(top: 10),
-                          child: txtfieldLogin(
-                              altura: 55,
-                              backColor: Colors.white,
-                              blurR: 10,
-                              borderR: 10,
-                              borderShadowColor: Color(0XFF7094AE),
-                              fSize: 20,
-                              icon: Icons.no_encryption,
-                              iconColor: Color(0XFF7094AE),
-                              obscText: true,
-                              hText: 'Senha',
-                              sizeIcon: 30,
-                              controll: _controllerSenha),
-                        ),
+                                controll: _controllerSenha),
+                          ),
 //                        Align(
 //                          alignment: Alignment.centerRight,
 //                          child: FlatButton(
@@ -193,29 +192,46 @@ class _LoginPageState extends State<LoginPage> with Component {
 //                            ),
 //                          ),
 //                        ),
-                        btnEntrar(
-                            titulo: 'ENTRAR',
-                            isLoading: isLoading,
-                            widthButao: MediaQuery.of(context).size.width - 60,
-                            validarCampos: () {
-                              setState(() {
-                                isLoading = !isLoading;
-                              });
-                              _validarCampos();
-                            }),
-                        btnCadastrese(
-                            titulo: 'CADASTRE-SE',
-                            cadastreUsuario: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => CadastroUsuario()));
-                            }),
-                        btnPular(titulo: 'PULAR')
-                      ],
-                    ),
-                  )),
-                )
+                          btnEntrar(
+                              titulo: 'ENTRAR',
+                              isLoading: isLoading,
+                              widthButao:
+                                  MediaQuery.of(context).size.width - 60,
+                              validarCampos: () {
+                                setState(() {
+                                  isLoading = !isLoading;
+                                });
+                                _validarCampos();
+                              }),
+                          btnCadastrese(
+                              titulo: 'CADASTRE-SE',
+                              cadastreUsuario: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            CadastroUsuario()));
+                              }),
+                          btnPular(titulo: 'PULAR')
+//                          Align(
+//                            alignment: Alignment.center,
+//                            child: FlatButton(
+//                              padding: EdgeInsets.zero,
+//                              onPressed: () {},
+//                              child: Text(
+//                                "Pular",
+//                                textAlign: TextAlign.right,
+//                                style: TextStyle(
+//                                    fontSize: 15,
+//                                    fontFamily: 'Raleway',
+//                                    fontWeight: FontWeight.bold,
+//                                    color: Color(0XFF6F5A5B)),
+//                              ),
+//                            ),
+//                          ),
+                        ],
+                      ),
+                    ))
               ],
             )
           ],

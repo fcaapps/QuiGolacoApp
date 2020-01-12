@@ -210,6 +210,185 @@ class Component {
       ),
     );
   }
+
+  Widget DrawerPersonalizado({Color cor, FontWeight fontW, Function(int) onPressed, String usuario}) {
+    return Drawer(
+        child: Stack(
+      children: <Widget>[
+        Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  colors: [Colors.white, Color(0XFF7094AE)],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter)),
+        ),
+        Material(
+          color: Colors.transparent,
+          child: InkWell(
+            child: ListView(
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.only(top: 20, left: 20),
+                  height: 80,
+                  width: double.infinity,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Row(
+                        children: <Widget>[
+                          Text(
+                            'Qui',
+                            style: TextStyle(
+                                fontFamily: 'Roboto',
+                                fontWeight: FontWeight.bold,
+                                fontSize: 30,
+                                color: Color(0XFF7094AE)),
+                          ),
+                          Text(
+                            'Golaço!',
+                            style: TextStyle(
+                                fontFamily: 'Roboto',
+                                fontWeight: FontWeight.bold,
+                                fontSize: 30,
+                                color: Color(0XFF365A7D)),
+                          )
+                        ],
+                      ),
+                      Text(
+                        'Bem-vindo, $usuario...',
+                        style: TextStyle(
+                            fontFamily: 'Roboto',
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0XFF6F5A5B)),
+                      )
+                    ],
+                  ),
+                ),
+                Divider(),
+                ListTile(
+                  leading: Icon(
+                    Icons.home,
+                    color: cor
+                  ),
+                  title: Text(
+                    'Home',
+                    style: TextStyle(
+                        fontFamily: 'Raleway',
+                        fontSize: 17,
+                        color: cor,
+                        fontWeight: fontW),
+                  ),
+                  onTap: () {
+                    onPressed(0);
+                  },
+                ),
+                ListTile(
+                  leading: Icon(
+                    Icons.people,
+                    color: cor,
+                  ),
+                  title: Text(
+                    'Jogadores',
+                    style: TextStyle(
+                        fontFamily: 'Raleway',
+                        fontSize: 17,
+                        color: cor,
+                        fontWeight: fontW),
+                  ),
+                  onTap: () {
+                    onPressed(1);
+                  },
+                ),
+                ListTile(
+                  leading: Icon(
+                    Icons.list,
+                    color: cor,
+                  ),
+                  title: Text(
+                    'Ranking',
+                    style: TextStyle(
+                        fontFamily: 'Raleway',
+                        fontSize: 17,
+                        color: cor,
+                        fontWeight: fontW),
+                  ),
+                  onTap: () {
+                    onPressed(4);
+                  },
+                ),
+                ListTile(
+                  leading: Icon(
+                    Icons.blur_circular,
+                    color: cor,
+                  ),
+                  title: Text(
+                    'Gols',
+                    style: TextStyle(
+                        fontFamily: 'Raleway',
+                        fontSize: 17,
+                        color: cor,
+                        fontWeight: fontW),
+                  ),
+                  onTap: () {
+                    onPressed(2);
+                  },
+                ),
+                ListTile(
+                  leading: Icon(
+                    Icons.brightness_auto,
+                    color: cor,
+                  ),
+                  title: Text(
+                    'Assistências',
+                    style: TextStyle(
+                        fontFamily: 'Raleway',
+                        fontSize: 17,
+                        color: cor,
+                        fontWeight: fontW),
+                  ),
+                  onTap: () {
+                    onPressed(3);
+                  },
+                ),
+                ListTile(
+                  leading: Icon(
+                    Icons.build,
+                    color: cor,
+                  ),
+                  title: Text(
+                    'Configurações',
+                    style: TextStyle(
+                        fontFamily: 'Raleway',
+                        fontSize: 17,
+                        color: cor,
+                        fontWeight: fontW),
+                  ),
+                  onTap: () {
+                    onPressed(5);
+                  },
+                ),
+                ListTile(
+                  leading: Icon(
+                    Icons.close,
+                    color: Colors.black54,
+                  ),
+                  title: Text(
+                    'Sair',
+                    style: TextStyle(
+                      fontFamily: 'Raleway',
+                      fontSize: 17,
+                      color: Colors.black54,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    ));
+  }
 }
 
 //Dialog
