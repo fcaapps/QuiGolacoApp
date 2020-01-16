@@ -195,6 +195,17 @@ class Component {
           boxShadow: <BoxShadow>[
             BoxShadow(color: Color(0XFF6F5A5B), blurRadius: 1)
           ],
+          gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              stops: [
+                0.3,
+                1
+              ],
+              colors: [
+                Color(0XFF6F5A5B),
+                Color(0XFF9F705B),
+              ]),
         ),
         height: 45,
         alignment: Alignment.center,
@@ -211,7 +222,9 @@ class Component {
     );
   }
 
-  Widget DrawerPersonalizado({Color cor, FontWeight fontW, Function(int) onPressed, String usuario}) {
+  //Draweer Persolnalizado
+  Widget DrawerPersonalizado(
+      {Color cor, FontWeight fontW, Function(int) onPressed, String usuario}) {
     return Drawer(
         child: Stack(
       children: <Widget>[
@@ -267,10 +280,7 @@ class Component {
                 ),
                 Divider(),
                 ListTile(
-                  leading: Icon(
-                    Icons.home,
-                    color: cor
-                  ),
+                  leading: Icon(Icons.home, color: cor),
                   title: Text(
                     'Home',
                     style: TextStyle(
