@@ -222,7 +222,50 @@ class Component {
     );
   }
 
-  //Draweer Persolnalizado
+  //Butão Recuperar Senha
+  Widget btnRecuperarSenha(
+      {String titulo, bool isLoading, double widthButao, Function onPressed}) {
+    return GestureDetector(
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 200),
+        margin: EdgeInsets.only(top: 5),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(isLoading ? 50 : 10),
+          gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              stops: [0.3, 1],
+              colors: [Color(0XFF6F5A5B), Color(0XFF9F705B)]),
+          boxShadow: <BoxShadow>[
+            BoxShadow(color: Color(0XFF47769B), blurRadius: 1)
+          ],
+        ),
+        height: 45,
+        width: isLoading ? 45 : widthButao,
+        alignment: Alignment.center,
+        child: isLoading
+            ? Center(
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                ),
+              )
+            : Text(
+                titulo,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Roboto',
+                ),
+              ),
+      ),
+      onTap: () {
+        onPressed();
+      },
+    );
+  }
+
+  //Draweer Personalizado
   Widget DrawerPersonalizado(
       {Color cor, FontWeight fontW, Function(int) onPressed, String usuario}) {
     return Drawer(

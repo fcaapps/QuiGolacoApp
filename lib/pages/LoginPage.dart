@@ -8,7 +8,6 @@ import 'componentes/Component.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginPage extends StatefulWidget {
-
   final String warning;
   final bool isVisible;
 
@@ -20,6 +19,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> with Component {
   bool isLoading = false;
+  bool isLoading2 = false;
 
   String usuario;
 
@@ -195,28 +195,28 @@ class _LoginPageState extends State<LoginPage> with Component {
                                 sizeIcon: 30,
                                 controll: _controllerSenha),
                           ),
-                          Container(
-                            height: 30,
-                            alignment: Alignment.topRight,
-                            child: FlatButton(
-                              padding: EdgeInsets.zero,
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            ResetPasswordPage()));
-                              },
-                              child: Text(
-                                "Recuperar Senha",
-                                textAlign: TextAlign.right,
-                                style: TextStyle(
-                                    fontSize: 15,
-                                    fontFamily: 'Roboto',
-                                    color: Color(0XFF7094AE)),
-                              ),
-                            ),
-                          ),
+//                          Container(
+//                            height: 30,
+//                            alignment: Alignment.topRight,
+//                            child: FlatButton(
+//                              padding: EdgeInsets.zero,
+//                              onPressed: () {
+//                                Navigator.push(
+//                                    context,
+//                                    MaterialPageRoute(
+//                                        builder: (context) =>
+//                                            ResetPasswordPage()));
+//                              },
+//                              child: Text(
+//                                "Recuperar Senha",
+//                                textAlign: TextAlign.right,
+//                                style: TextStyle(
+//                                    fontSize: 15,
+//                                    fontFamily: 'Roboto',
+//                                    color: Color(0XFF7094AE)),
+//                              ),
+//                            ),
+//                          ),
                           btnEntrar(
                               titulo: 'ENTRAR',
                               isLoading: isLoading,
@@ -237,23 +237,41 @@ class _LoginPageState extends State<LoginPage> with Component {
                                         builder: (context) =>
                                             CadastroUsuario()));
                               }),
-                          btnPular(titulo: 'PULAR')
-//                          Align(
-//                            alignment: Alignment.center,
-//                            child: FlatButton(
-//                              padding: EdgeInsets.zero,
-//                              onPressed: () {},
-//                              child: Text(
-//                                "PULAR",
-//                                textAlign: TextAlign.right,
-//                                style: TextStyle(
-//                                    fontSize: 14,
-//                                    fontFamily: 'Raleway',
-//                                    fontWeight: FontWeight.bold,
-//                                    color: Color(0XFF6F5A5B)),
-//                              ),
-//                            ),
-//                          ),
+                          //btnPular(titulo: 'PULAR')
+                          btnRecuperarSenha(
+                              titulo: 'RECUPERAR SENHA',
+                              isLoading: isLoading2,
+                              widthButao:
+                                  MediaQuery.of(context).size.width - 60,
+                              onPressed: () {
+                                setState(() {
+                                  isLoading2 = !isLoading2;
+                                });
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            ResetPasswordPage()));
+                                setState(() {
+                                  isLoading2 = !isLoading2;
+                                });
+                              }),
+                          Align(
+                            alignment: Alignment.center,
+                            child: FlatButton(
+                              padding: EdgeInsets.zero,
+                              onPressed: () {},
+                              child: Text(
+                                "PULAR",
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontFamily: 'Raleway',
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0XFF6F5A5B)),
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     )),
