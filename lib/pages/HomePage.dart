@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:quigolaco/pages/LoginPage.dart';
 import 'package:quigolaco/pages/drawer/AssistenciasPage.dart';
@@ -56,7 +57,25 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _keyScaffold,
+//      endDrawer: DrawerPersonalizado(
+//        usuario: this.widget.usuarioL,
+//        pageController: _pageControl,
+//        onPressed: (index) {
+//          _keyScaffold.currentState.openEndDrawer();
+//          _pageControl.jumpToPage(index);
+//          if (index == 7) {
+//            FirebaseAuth auth = FirebaseAuth.instance;
+//            auth.signOut();
+//            if (usuario != null) {
+//              //Navigator.of(context).pop();
+//              Navigator.pushReplacement(context,
+//                  MaterialPageRoute(builder: (context) => LoginPage()));
+//            }
+//          }
+//        },
+//      ),
       drawer: DrawerPersonalizado(
+
         usuario: this.widget.usuarioL,
         pageController: _pageControl,
         onPressed: (index) {
@@ -74,6 +93,7 @@ class _HomePageState extends State<HomePage> {
         },
       ),
       appBar: AppBar(
+//        automaticallyImplyLeading: false,
         backgroundColor: Color(0XFF4E7CA0),
         title: Row(
           children: <Widget>[
@@ -108,177 +128,183 @@ class _HomePageState extends State<HomePage> {
 //              height: 20,
 //            ),
 //          )),
-//      bottomNavigationBar: BottomNavigationBar(
-//          onTap: (index) {
-//            _pageControl.jumpToPage(index);
-//          },
-//          items: <BottomNavigationBarItem>[
-//        BottomNavigationBarItem(
-//
-//            icon: Icon(
-//              Icons.home,
-//              color: Color(0XFF6F5A5B),
-//            ),
-//            title: Text(
-//              'Home',
-//              style: TextStyle(
-//                fontFamily: 'Roboto',
-//                color: Color(0XFF6F5A5B),
-//              ),
+      bottomNavigationBar: BottomNavigationBar(
+          onTap: (index) {
+            _keyScaffold.currentState.openEndDrawer();
+            if (index == 0) {
+              _pageControl.jumpToPage(0);
+            } else if (index == 1) {
+              _pageControl.jumpToPage(5);
+            } else {
+              _pageControl.jumpToPage(2);
+            }
+          },
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.home,
+                  color: Color(0XFF6F5A5B),
+                ),
+                title: Text(
+                  'Home',
+                  style: TextStyle(
+                    fontFamily: 'Roboto',
+                    color: Color(0XFF6F5A5B),
+                  ),
+                )),
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.list,
+                  color: Color(0XFF6F5A5B),
+                ),
+                title: Text(
+                  'Ranking',
+                  style: TextStyle(
+                    fontFamily: 'Roboto',
+                    color: Color(0XFF6F5A5B),
+                  ),
+                )),
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.blur_circular,
+                  color: Color(0XFF6F5A5B),
+                ),
+                title: Text(
+                  'Gols',
+                  style: TextStyle(
+                    fontFamily: 'Roboto',
+                    color: Color(0XFF6F5A5B),
+                  ),
+                )),
+          ]),
+//      bottomNavigationBar: BottomAppBar(
+//        color: Colors.white,
+//        child: Container(
+//            height: 60,
+//            child: Row(
+//              children: <Widget>[
+//                Expanded(
+//                  child: GestureDetector(
+//                    onTap: () {
+//                      Navigator.push(context,
+//                          MaterialPageRoute(builder: (context) {
+//                        return InicioPage();
+//                      }));
+//                    },
+//                    child: Center(
+//                      child: Column(
+//                        mainAxisSize: MainAxisSize.min,
+//                        crossAxisAlignment: CrossAxisAlignment.center,
+//                        children: <Widget>[
+//                          Icon(
+//                            Icons.home,
+//                            size: 30,
+//                            color: Color(0XFF6F5A5B),
+//                          ),
+//                          Text(
+//                            'Home',
+//                            style: TextStyle(
+//                                fontFamily: 'Raleway',
+//                                color: Color(0XFF6F5A5B)),
+//                          )
+//                        ],
+//                      ),
+//                    ),
+//                  ),
+//                ),
+//                Expanded(
+//                  child: GestureDetector(
+//                    onTap: () {
+//                      Navigator.push(context,
+//                          MaterialPageRoute(builder: (context) {
+//                        return RankingPage();
+//                      }));
+//                    },
+//                    child: Center(
+//                      child: Column(
+//                        mainAxisSize: MainAxisSize.min,
+//                        crossAxisAlignment: CrossAxisAlignment.center,
+//                        children: <Widget>[
+//                          Icon(
+//                            Icons.list,
+//                            size: 30,
+//                            color: Color(0XFF6F5A5B),
+//                          ),
+//                          Text(
+//                            'Ranking',
+//                            style: TextStyle(
+//                              fontFamily: 'Raleway',
+//                              color: Color(0XFF6F5A5B),
+//                            ),
+//                          )
+//                        ],
+//                      ),
+//                    ),
+//                  ),
+//                ),
+//                Expanded(
+//                  child: GestureDetector(
+//                    onTap: () {
+//                      Navigator.push(context,
+//                          MaterialPageRoute(builder: (context) {
+//                        return GolsPage();
+//                      }));
+//                    },
+//                    child: Center(
+//                      child: Column(
+//                        mainAxisSize: MainAxisSize.min,
+//                        crossAxisAlignment: CrossAxisAlignment.center,
+//                        children: <Widget>[
+//                          Icon(
+//                            Icons.blur_circular,
+//                            size: 30,
+//                            color: Color(0XFF6F5A5B),
+//                          ),
+//                          Text(
+//                            'Gols',
+//                            style: TextStyle(
+//                              fontFamily: 'Raleway',
+//                              color: Color(0XFF6F5A5B),
+//                            ),
+//                          )
+//                        ],
+//                      ),
+//                    ),
+//                  ),
+//                ),
+//                Expanded(
+//                  child: GestureDetector(
+//                    onTap: () {
+//                      Navigator.push(context,
+//                          MaterialPageRoute(builder: (context) {
+//                        return AssistenciasPage();
+//                      }));
+//                    },
+//                    child: Center(
+//                      child: Column(
+//                        mainAxisSize: MainAxisSize.min,
+//                        crossAxisAlignment: CrossAxisAlignment.center,
+//                        children: <Widget>[
+//                          Icon(
+//                            Icons.brightness_auto,
+//                            size: 30,
+//                            color: Color(0XFF6F5A5B),
+//                          ),
+//                          Text(
+//                            'Assistências',
+//                            style: TextStyle(
+//                              fontFamily: 'Raleway',
+//                              color: Color(0XFF6F5A5B),
+//                            ),
+//                          )
+//                        ],
+//                      ),
+//                    ),
+//                  ),
+//                ),
+//              ],
 //            )),
-//        BottomNavigationBarItem(
-//            icon: Icon(
-//              Icons.list,
-//              color: Color(0XFF6F5A5B),
-//            ),
-//            title: Text(
-//              'Ranking',
-//              style: TextStyle(
-//                fontFamily: 'Roboto',
-//                color: Color(0XFF6F5A5B),
-//              ),
-//            )),
-//        BottomNavigationBarItem(
-//            icon: Icon(
-//              Icons.blur_circular,
-//              color: Color(0XFF6F5A5B),
-//            ),
-//            title: Text(
-//              'Gols',
-//              style: TextStyle(
-//                fontFamily: 'Roboto',
-//                color: Color(0XFF6F5A5B),
-//              ),
-//            )),
-//      ]),
-      bottomNavigationBar: BottomAppBar(
-        color: Colors.white,
-        child: Container(
-            height: 60,
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return InicioPage();
-                      }));
-                    },
-                    child: Center(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(
-                            Icons.home,
-                            size: 30,
-                            color: Color(0XFF6F5A5B),
-                          ),
-                          Text(
-                            'Home',
-                            style: TextStyle(
-                                fontFamily: 'Raleway',
-                                color: Color(0XFF6F5A5B)),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return RankingPage();
-                      }));
-                    },
-                    child: Center(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(
-                            Icons.list,
-                            size: 30,
-                            color: Color(0XFF6F5A5B),
-                          ),
-                          Text(
-                            'Ranking',
-                            style: TextStyle(
-                              fontFamily: 'Raleway',
-                              color: Color(0XFF6F5A5B),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return GolsPage();
-                      }));
-                    },
-                    child: Center(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(
-                            Icons.blur_circular,
-                            size: 30,
-                            color: Color(0XFF6F5A5B),
-                          ),
-                          Text(
-                            'Gols',
-                            style: TextStyle(
-                              fontFamily: 'Raleway',
-                              color: Color(0XFF6F5A5B),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return AssistenciasPage();
-                      }));
-                    },
-                    child: Center(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(
-                            Icons.brightness_auto,
-                            size: 30,
-                            color: Color(0XFF6F5A5B),
-                          ),
-                          Text(
-                            'Assistências',
-                            style: TextStyle(
-                              fontFamily: 'Raleway',
-                              color: Color(0XFF6F5A5B),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            )),
-      ),
+//      ),
       // body: Text(usuario),
     );
   }
