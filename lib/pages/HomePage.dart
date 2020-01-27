@@ -14,8 +14,9 @@ import 'drawer/JogadoresPage.dart';
 
 class HomePage extends StatefulWidget {
   final String usuarioL;
+  final int indexPage;
 
-  const HomePage({Key key, this.usuarioL}) : super(key: key);
+  const HomePage({Key key, this.usuarioL, this.indexPage}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -34,9 +35,10 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    super.initState();
+//    print(this.widget.indexPage);
     _usuarioLogado();
-    print(this.widget.usuarioL);
+    super.initState();
+
   }
 
   GlobalKey<ScaffoldState> _keyScaffold = GlobalKey<ScaffoldState>();
@@ -61,7 +63,7 @@ class _HomePageState extends State<HomePage> {
 //        usuario: this.widget.usuarioL,
 //        pageController: _pageControl,
 //        onPressed: (index) {
-//          _keyScaffold.currentState.openEndDrawer();
+//          _keyScaffold.currentState.openDrawer();
 //          _pageControl.jumpToPage(index);
 //          if (index == 7) {
 //            FirebaseAuth auth = FirebaseAuth.instance;
@@ -93,6 +95,7 @@ class _HomePageState extends State<HomePage> {
         },
       ),
       appBar: AppBar(
+         elevation: 0,
 //        automaticallyImplyLeading: false,
         backgroundColor: Color(0XFF4E7CA0),
         title: Row(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quigolaco/pages/HomePage.dart';
 
 class InicioPage extends StatelessWidget {
   @override
@@ -24,10 +25,18 @@ class InicioPage extends StatelessWidget {
                         child: Center(
                             child: Column(
                           children: <Widget>[
-                            Icon(
-                              Icons.list,
-                              size: 100,
-                              color: Colors.black54,
+                            FlatButton(
+                              child: Icon(
+                                Icons.list,
+                                size: 100,
+                                color: Colors.black54,
+                              ),
+//                              onPressed: () {
+//                                print('Rankig');
+//                                Navigator.push(context, MaterialPageRoute(builder: (context) {
+//                                  return HomePage(indexPage: 2);
+//                                }));
+//                              },
                             ),
                             Text(
                               'Ranking',
