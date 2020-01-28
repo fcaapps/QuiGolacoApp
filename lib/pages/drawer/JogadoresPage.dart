@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:quigolaco/model/Jogadores.dart';
 import 'package:intl/intl.dart';
+import 'package:quigolaco/pages/JogadoresDetalhes.dart';
 
 class JogadoresPage extends StatefulWidget {
   @override
@@ -21,7 +22,7 @@ class _JogadoresPageState extends State<JogadoresPage> {
 
   final TextEditingController nomeControlller = TextEditingController();
   final TextEditingController especialidadeControlller =
-  TextEditingController();
+      TextEditingController();
   final TextEditingController descricaoControlller = TextEditingController();
   final TextEditingController idadeController = TextEditingController();
   final TextEditingController alturaController = TextEditingController();
@@ -37,7 +38,7 @@ class _JogadoresPageState extends State<JogadoresPage> {
 
   Future<List<Jogadores>> listarJogadores() async {
     QuerySnapshot querySnapshot =
-    await db.collection("jogadores").getDocuments();
+        await db.collection("jogadores").getDocuments();
 
     List<Jogadores> listaJogadores = List();
 
@@ -51,7 +52,7 @@ class _JogadoresPageState extends State<JogadoresPage> {
       jogadores.descricao = dados["descricao"];
       jogadores.idade = dados["idade"];
       jogadores.altura = dados["altura"];
-      jogadores.camminhoFoto = dados["foto"];
+      jogadores.caminhoFoto = dados["foto"];
 
       listaJogadores.add(jogadores);
     }
@@ -67,10 +68,10 @@ class _JogadoresPageState extends State<JogadoresPage> {
   Future _recuperarImagem(bool daCamera) async {
     if (daCamera) {
       imagemSelecionada =
-      await ImagePicker.pickImage(source: ImageSource.camera);
+          await ImagePicker.pickImage(source: ImageSource.camera);
     } else {
       imagemSelecionada =
-      await ImagePicker.pickImage(source: ImageSource.gallery);
+          await ImagePicker.pickImage(source: ImageSource.gallery);
     }
 
     setState(() {
@@ -92,7 +93,7 @@ class _JogadoresPageState extends State<JogadoresPage> {
     StorageReference pastaRaiz = storage.ref();
     //print((await pastaRaiz.getDownloadURL()).toString());
     StorageReference arquivo =
-    pastaRaiz.child("fotos").child("jogadores").child(nomefoto);
+        pastaRaiz.child("fotos").child("jogadores").child(nomefoto);
 
     //Fazer Upload da Imagem
     StorageUploadTask task = arquivo.putFile(_image);
@@ -190,25 +191,25 @@ class _JogadoresPageState extends State<JogadoresPage> {
                   tabs: <Widget>[
                     Tab(
                         child: Center(
-                          child: Text(
-                            'CADASTRO',
-                            style: TextStyle(
-                                fontFamily: 'Roboto',
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        )),
+                      child: Text(
+                        'CADASTRO',
+                        style: TextStyle(
+                            fontFamily: 'Roboto',
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    )),
                     Tab(
                         child: Align(
-                          alignment: Alignment.center,
-                          child: Text(
-                            'LISTA',
-                            style: TextStyle(
-                                fontFamily: 'Roboto',
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        )),
+                      alignment: Alignment.center,
+                      child: Text(
+                        'LISTA',
+                        style: TextStyle(
+                            fontFamily: 'Roboto',
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    )),
                   ],
                 ),
               ),
@@ -370,9 +371,7 @@ class _JogadoresPageState extends State<JogadoresPage> {
                                         items: listaEspecialidade,
                                         onChanged: (value) {
                                           especialidadeControlller.text = value;
-                                          setState(() {
-
-                                          });
+                                          setState(() {});
                                         },
                                       ),
                                     ),
@@ -568,26 +567,47 @@ class _JogadoresPageState extends State<JogadoresPage> {
                                 padding: const EdgeInsets.all(2.0),
                                 child: Card(
                                   child: ListTile(
+                                    onTap: () {
+                                      Navigator.push(context,
+                                          MaterialPageRoute(builder: (context) {
+                                        return JogadoresDetalhes(
+                                          nomeJogador: jogadores.nome,
+                                          caminhoFoto:
+                                              jogadores.caminhoFoto != null
+                                                  ? jogadores.caminhoFoto
+                                                  : null,
+                                          especialidade:
+                                              jogadores.especialidade,
+                                          descricaoJogador: jogadores.descricao,
+                                          idadeJogador: jogadores.idade,
+                                          alturaJogador: jogadores.altura,
+                                        );
+                                      }));
+                                    },
                                     contentPadding:
-                                    EdgeInsets.fromLTRB(16, 8, 16, 8),
+                                        EdgeInsets.fromLTRB(16, 8, 16, 8),
                                     leading: CircleAvatar(
                                         backgroundColor: Colors.grey,
                                         backgroundImage:
-                                        jogadores.camminhoFoto != null
-                                            ? NetworkImage(
-                                            jogadores.camminhoFoto)
-                                            : null),
+                                            jogadores.caminhoFoto != null
+                                                ? NetworkImage(
+                                                    jogadores.caminhoFoto)
+                                                : null),
                                     title: Text(
                                       jogadores.nome,
                                       style: TextStyle(
                                           fontFamily: 'Roboto',
                                           fontWeight: FontWeight.bold,
                                           fontSize: 16,
-                                          color: Color(0XFF6F5A5B)
-                                      ),
+                                          color: Color(0XFF6F5A5B)),
                                     ),
                                     subtitle: Text(
-                                      jogadores.especialidade + " | " + jogadores.idade + " anos | " + jogadores.altura + " de altura",
+                                      jogadores.especialidade +
+                                          " | " +
+                                          jogadores.idade +
+                                          " anos | " +
+                                          jogadores.altura +
+                                          " de altura",
                                       style: TextStyle(
                                           fontFamily: 'Roboto',
                                           color: Colors.grey,

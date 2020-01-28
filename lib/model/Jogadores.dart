@@ -4,7 +4,7 @@ class Jogadores {
   String _descricao;
   String _idade;
   String _altura;
-  String _camminhoFoto;
+  String _caminhoFoto;
 
   Jogadores();
 
@@ -15,7 +15,7 @@ class Jogadores {
       "descricao": this.descricao,
       "idade" : this.idade,
       "altura" : this.altura,
-      "foto" : this.camminhoFoto
+      "foto" : this.caminhoFoto
     };
   }
 
@@ -49,10 +49,10 @@ class Jogadores {
     _altura = value;
   }
 
-  String get camminhoFoto => _camminhoFoto;
+  String get caminhoFoto => _caminhoFoto;
 
-  set camminhoFoto(String value) {
-    _camminhoFoto = value;
+  set caminhoFoto(String value) {
+    _caminhoFoto = value;
   }
 
 }
