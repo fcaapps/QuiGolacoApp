@@ -29,7 +29,7 @@ class InicioPage extends StatelessWidget {
                               child: Icon(
                                 Icons.list,
                                 size: 100,
-                                color: Colors.black54,
+                                color: Color(0XFF9F705B),
                               ),
 //                              onPressed: () {
 //                                print('Rankig');
@@ -44,16 +44,19 @@ class InicioPage extends StatelessWidget {
                                   fontFamily: 'Roboto',
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.black54),
+                                  color: Color(0XFF9F705B)),
                             ),
                             Container(
-                              child: Text('Gols, Assistências e Defesas',
-                                  style: TextStyle(
-                                      fontFamily: 'Roboto',
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black26),
-                                  textAlign: TextAlign.center),
+                              child: Opacity(
+                                opacity: 0.7,
+                                child: Text('Gols, Assistências e Defesas',
+                                    style: TextStyle(
+                                        fontFamily: 'Roboto',
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: Color(0XFF9F705B)),
+                                    textAlign: TextAlign.center),
+                              ),
                             )
                           ],
                         ))),
@@ -79,7 +82,7 @@ class InicioPage extends StatelessWidget {
                             Icon(
                               Icons.blur_circular,
                               size: 30,
-                              color: Colors.black54,
+                              color: Color(0XFF9F705B),
                             ),
                             Text(
                               'Gols',
@@ -87,16 +90,19 @@ class InicioPage extends StatelessWidget {
                                   fontFamily: 'Roboto',
                                   fontSize: 15,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.black54),
+                                  color: Color(0XFF9F705B)),
                             ),
                             Container(
-                              child: Text('Aponte seus gols',
-                                  style: TextStyle(
-                                      fontFamily: 'Roboto',
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black26),
-                                  textAlign: TextAlign.center),
+                              child: Opacity(
+                                opacity: 0.7,
+                                child: Text('Aponte seus gols',
+                                    style: TextStyle(
+                                        fontFamily: 'Roboto',
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                        color: Color(0XFF9F705B)),
+                                    textAlign: TextAlign.center),
+                              ),
                             )
                           ],
                         ))),
@@ -118,7 +124,7 @@ class InicioPage extends StatelessWidget {
                             Icon(
                               Icons.brightness_auto,
                               size: 30,
-                              color: Colors.black54,
+                              color: Color(0XFF9F705B),
                             ),
                             Text(
                               'Assistências',
@@ -126,16 +132,19 @@ class InicioPage extends StatelessWidget {
                                   fontFamily: 'Roboto',
                                   fontSize: 15,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.black54),
+                                  color: Color(0XFF9F705B)),
                             ),
                             Container(
-                              child: Text('Aponte suas assistências',
-                                  style: TextStyle(
-                                      fontFamily: 'Roboto',
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black26),
-                                  textAlign: TextAlign.center),
+                              child: Opacity(
+                                opacity: 0.7,
+                                child: Text('Aponte suas assistências',
+                                    style: TextStyle(
+                                        fontFamily: 'Roboto',
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                        color: Color(0XFF9F705B)),
+                                    textAlign: TextAlign.center),
+                              ),
                             )
                           ],
                         ))),
@@ -161,7 +170,7 @@ class InicioPage extends StatelessWidget {
                             Icon(
                               Icons.accessibility_new,
                               size: 30,
-                              color: Colors.black54,
+                              color: Color(0XFF9F705B),
                             ),
                             Text(
                               'Defesas',
@@ -169,16 +178,19 @@ class InicioPage extends StatelessWidget {
                                   fontFamily: 'Roboto',
                                   fontSize: 15,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.black54),
+                                  color: Color(0XFF9F705B)),
                             ),
                             Container(
-                              child: Text('Aponte suas defesas',
-                                  style: TextStyle(
-                                      fontFamily: 'Roboto',
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black26),
-                                  textAlign: TextAlign.center),
+                              child: Opacity(
+                                opacity: 0.7,
+                                child: Text('Aponte suas defesas',
+                                    style: TextStyle(
+                                        fontFamily: 'Roboto',
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                        color: Color(0XFF9F705B)),
+                                    textAlign: TextAlign.center),
+                              ),
                             )
                           ],
                         ))),
@@ -204,7 +216,7 @@ class InicioPage extends StatelessWidget {
                                 Icon(
                                   Icons.contact_mail,
                                   size: 30,
-                                  color: Colors.black54,
+                                  color: Color(0XFF9F705B),
                                 ),
                                 Text(
                                   'Melhor da Semana',
@@ -212,16 +224,19 @@ class InicioPage extends StatelessWidget {
                                       fontFamily: 'Roboto',
                                       fontSize: 15,
                                       fontWeight: FontWeight.bold,
-                                      color: Colors.black54),
+                                      color: Color(0XFF9F705B)),
                                 ),
                                 Container(
-                                  child: Text('Acompanhe o melhor da semana por modalidade',
-                                      style: TextStyle(
-                                          fontFamily: 'Roboto',
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black26),
-                                      textAlign: TextAlign.center),
+                                  child: Opacity(
+                                    opacity: 0.7,
+                                    child: Text('Acompanhe o melhor da semana por modalidade',
+                                        style: TextStyle(
+                                            fontFamily: 'Roboto',
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold,
+                                            color: Color(0XFF9F705B)),
+                                        textAlign: TextAlign.center),
+                                  ),
                                 )
                               ],
                             ))

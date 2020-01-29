@@ -130,6 +130,8 @@ class _JogadoresPageState extends State<JogadoresPage> {
 
   _cadastrarJogador(String nome, String especialidade, String descricao,
       String idade, String altura, String foto) {
+
+
     db.collection("jogadores").add({
       "nome": nome,
       "especialidade": especialidade,

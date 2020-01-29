@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quigolaco/pages/JogadoresEdit.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -29,6 +30,24 @@ class JogadoresDetalhes extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.edit),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => JogadoresEdit(
+                            caminhoFoto: caminhoFoto,
+                            nomeJogador: nomeJogador,
+                            especialidade: especialidade,
+                            descricaoJogador: descricaoJogador,
+                            idadeJogador: idadeJogador,
+                            alturaJogador: alturaJogador,
+                          )));
+            },
+          )
+        ],
         elevation: 0,
         title: Text(
           'Sobre o $nomeJogador',
@@ -197,7 +216,7 @@ class JogadoresDetalhes extends StatelessWidget {
                 )),
           ],
         ),
-      ),
+      )
     );
   }
 }
