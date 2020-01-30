@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:quigolaco/pages/CadastroJogadores.dart';
 import 'package:quigolaco/pages/LoginPage.dart';
 import 'package:quigolaco/pages/drawer/AssistenciasPage.dart';
 import 'package:quigolaco/pages/drawer/ConfigPage.dart';
@@ -23,6 +24,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  bool visivel = false;
   String usuario;
 
   Future _usuarioLogado() async {
@@ -38,7 +40,6 @@ class _HomePageState extends State<HomePage> {
 //    print(this.widget.indexPage);
     _usuarioLogado();
     super.initState();
-
   }
 
   GlobalKey<ScaffoldState> _keyScaffold = GlobalKey<ScaffoldState>();
@@ -59,30 +60,22 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _keyScaffold,
-//      endDrawer: DrawerPersonalizado(
-//        usuario: this.widget.usuarioL,
-//        pageController: _pageControl,
-//        onPressed: (index) {
-//          _keyScaffold.currentState.openDrawer();
-//          _pageControl.jumpToPage(index);
-//          if (index == 7) {
-//            FirebaseAuth auth = FirebaseAuth.instance;
-//            auth.signOut();
-//            if (usuario != null) {
-//              //Navigator.of(context).pop();
-//              Navigator.pushReplacement(context,
-//                  MaterialPageRoute(builder: (context) => LoginPage()));
-//            }
-//          }
-//        },
-//      ),
       drawer: DrawerPersonalizado(
-
         usuario: this.widget.usuarioL,
         pageController: _pageControl,
         onPressed: (index) {
+          print("index: " + index.toString());
           _keyScaffold.currentState.openEndDrawer();
           _pageControl.jumpToPage(index);
+          if (index == 1) {
+            setState(() {
+              visivel = true;
+            });
+          } else {
+            setState(() {
+              visivel = false;
+            });
+          }
           if (index == 7) {
             FirebaseAuth auth = FirebaseAuth.instance;
             auth.signOut();
@@ -95,7 +88,63 @@ class _HomePageState extends State<HomePage> {
         },
       ),
       appBar: AppBar(
-         elevation: 0,
+        actions: <Widget>[
+          Visibility(
+            visible: visivel,
+            child: IconButton(
+              onPressed: () {
+                Navigator.of(context).push(PageRouteBuilder(
+                    opaque: false,
+                    pageBuilder: (BuildContext context, _, __) =>
+                        CadastroJogadores()));
+//                print("Cadastro de Jogadores");
+//                showDialog(
+//                    context: context,
+//                    builder: (context) {
+//                      return AlertDialog(
+//                        elevation: 1,
+//                        shape: RoundedRectangleBorder(
+//                            borderRadius:
+//                                BorderRadius.all(Radius.circular(5.0))),
+//                        title: Text(
+//                          'Cadastro de Jogadores',
+//                          style: TextStyle(
+//                              fontSize: 20,
+//                              fontFamily: 'Roboto',
+//                              color: Color(0XFF365A7D),
+//                              fontWeight: FontWeight.bold),
+//                        ),
+//                        content: CadastroJogadores(),
+//                        actions: <Widget>[
+//                          FlatButton(
+//                            onPressed: () {},
+//                            child: Container(
+//                              height: 30,
+//                              width: 30,
+//                              decoration: BoxDecoration(
+//                                  color: Color(0XFF365A7D),
+//                                  borderRadius: BorderRadius.circular(100)),
+//                              child: Center(
+//                                child: Text(
+//                                  'Ok',
+//                                  style: TextStyle(
+//                                      fontSize: 15,
+//                                      fontFamily: 'Roboto',
+//                                      fontWeight: FontWeight.bold,
+//                                      color: Colors.white),
+//                                ),
+//                              ),
+//                            ),
+//                          )
+//                        ],
+//                      );
+//                    });
+              },
+              icon: Icon(Icons.add),
+            ),
+          )
+        ],
+        elevation: 0,
 //        automaticallyImplyLeading: false,
         backgroundColor: Color(0XFF4E7CA0),
         title: Row(

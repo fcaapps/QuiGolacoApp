@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -268,21 +269,33 @@ class _JogadoresEditState extends State<JogadoresEdit> {
                         BoxShadow(color: Colors.black54, blurRadius: 8)
                       ]),
                   child: Center(
-                    child: CircleAvatar(
-                      child: Text(
-                        _statusUpload,
-                        style: TextStyle(
-                            fontFamily: 'Roboto',
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
-                            color: Colors.white),
+                    child: ClipOval(
+                      child: CachedNetworkImage(
+                        placeholder: (context, url) =>
+                            CircularProgressIndicator(),
+                        imageUrl: _urlImagemRecuperada != null
+                            ? _urlImagemRecuperada
+                            : this.widget.caminhoFoto,
+                        width: 110,
+                        height: 110,
+                        fit: BoxFit.cover,
                       ),
-                      radius: 56,
-                      backgroundColor: Colors.grey,
-                      backgroundImage: _urlImagemRecuperada != null
-                          ? NetworkImage(_urlImagemRecuperada)
-                          : NetworkImage(this.widget.caminhoFoto),
                     ),
+//                    child: CircleAvatar(
+//                      child: Text(
+//                        _statusUpload,
+//                        style: TextStyle(
+//                            fontFamily: 'Roboto',
+//                            fontWeight: FontWeight.bold,
+//                            fontSize: 15,
+//                            color: Colors.white),
+//                      ),
+//                      radius: 56,
+//                      backgroundColor: Colors.grey,
+//                      backgroundImage: _urlImagemRecuperada != null
+//                          ? NetworkImage(_urlImagemRecuperada)
+//                          : NetworkImage(this.widget.caminhoFoto),
+//                    ),
                   ),
                 ),
               ],
@@ -570,13 +583,17 @@ class _JogadoresEditState extends State<JogadoresEdit> {
               context,
               MaterialPageRoute(
                   builder: (context) => JogadoresDetalhes(
-                    caminhoFoto: _urlImagemRecuperada == null ? this.widget.caminhoFoto : _urlImagemRecuperada,
-                    nomeJogador: nomeControlller.text,
-                    especialidade: selected == null ? especialidadeControlller.text : selected,
-                    descricaoJogador: descricaoControlller.text,
-                    idadeJogador: idadeController.text,
-                    alturaJogador: alturaController.text,
-                  )));
+                        caminhoFoto: _urlImagemRecuperada == null
+                            ? this.widget.caminhoFoto
+                            : _urlImagemRecuperada,
+                        nomeJogador: nomeControlller.text,
+                        especialidade: selected == null
+                            ? especialidadeControlller.text
+                            : selected,
+                        descricaoJogador: descricaoControlller.text,
+                        idadeJogador: idadeController.text,
+                        alturaJogador: alturaController.text,
+                      )));
         },
       ),
     );

@@ -29,6 +29,7 @@ dependencies:
   firebase_auth: ^0.11.1+6 #Autenticação
   image_picker: ^0.6.0+10
   intl: ^0.16.1
+  cached_network_image: ^2.0.0
 
 dev_dependencies:
   flutter_test:

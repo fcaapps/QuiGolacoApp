@@ -6,6 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:quigolaco/model/Jogadores.dart';
 import 'package:intl/intl.dart';
 import 'package:quigolaco/pages/JogadoresDetalhes.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class JogadoresPage extends StatefulWidget {
   @override
@@ -130,8 +131,6 @@ class _JogadoresPageState extends State<JogadoresPage> {
 
   _cadastrarJogador(String nome, String especialidade, String descricao,
       String idade, String altura, String foto) {
-
-
     db.collection("jogadores").add({
       "nome": nome,
       "especialidade": especialidade,
@@ -173,462 +172,101 @@ class _JogadoresPageState extends State<JogadoresPage> {
   Widget build(BuildContext context) {
     loadEspecialidade();
     return Material(
-      child: DefaultTabController(
-        initialIndex: 1,
-        length: 2,
-        child: Container(
-          child: Scaffold(
-            appBar: AppBar(
-              elevation: 0,
-              bottom: PreferredSize(
-                child: TabBar(
-                  labelColor: Color(0XFF4E7CA0),
-                  unselectedLabelColor: Colors.white,
-                  indicatorSize: TabBarIndicatorSize.label,
-                  indicator: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(5),
-                          topRight: Radius.circular(5)),
-                      color: Colors.white),
-                  tabs: <Widget>[
-                    Tab(
-                        child: Center(
-                      child: Text(
-                        'CADASTRO',
-                        style: TextStyle(
-                            fontFamily: 'Roboto',
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold),
+      child: StreamBuilder(
+        stream: db.collection("jogadores").snapshots(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (!snapshot.hasData)
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+
+          return ListView.builder(
+            itemCount: snapshot.data.documents.length,
+            itemBuilder: (BuildContext context, int index) {
+              DocumentSnapshot doc = snapshot.data.documents[index];
+
+              return Padding(
+                padding: const EdgeInsets.all(2.0),
+                child: Card(
+                  child: ListTile(
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return JogadoresDetalhes(
+                          nomeJogador: doc["nome"],
+                          caminhoFoto: doc["foto"] != null ? doc["foto"] : null,
+                          especialidade: doc["especialidade"],
+                          descricaoJogador: doc["descricao"],
+                          idadeJogador: doc["idade"],
+                          alturaJogador: doc["altura"],
+                        );
+                      }));
+                    },
+                    leading: ClipOval(
+                      child: CachedNetworkImage(
+                        placeholder: (context, url) =>
+                            CircularProgressIndicator(),
+                        imageUrl: doc["foto"] != null ? doc["foto"] : null,
+                        width: 45,
+                        height: 45,
+                        fit: BoxFit.cover,
                       ),
-                    )),
-                    Tab(
-                        child: Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                        'LISTA',
-                        style: TextStyle(
-                            fontFamily: 'Roboto',
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    )),
-                  ],
-                ),
-              ),
-            ),
-            body: TabBarView(
-              children: <Widget>[
-                SingleChildScrollView(
-                  child: Container(
-                    margin: EdgeInsets.all(15),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(5),
-                        boxShadow: <BoxShadow>[
-                          BoxShadow(color: Color(0XFF7094AE), blurRadius: 3)
-                        ]),
-                    child: Center(
-                      child: Padding(
-                          padding: EdgeInsets.all(15),
-                          child: Form(
-                            key: _formKeyJogadores,
-                            child: Column(
-                              children: <Widget>[
-//                                Container(
-//                                  margin: EdgeInsets.all(10),
-//                                  alignment: Alignment.center,
-//                                  height: 20,
-//                                  child: Text(
-//                                    _statusUpload,
-//                                    style: TextStyle(
-//                                        fontFamily: 'Roboto',
-//                                        fontWeight: FontWeight.bold,
-//                                        color: Color(0XFF9F705B)),
-//                                  ),
-//                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(top: 10),
-                                ),
-                                CircleAvatar(
-                                  child: Text(
-                                    _statusUpload,
-                                    style: TextStyle(
-                                        fontFamily: 'Roboto',
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15,
-                                        color: Colors.white),
-                                  ),
-                                  radius: 80,
-                                  backgroundColor: Colors.grey,
-                                  backgroundImage: _urlImagemRecuperada != null
-                                      ? NetworkImage(_urlImagemRecuperada)
-                                      : null,
-                                ),
-
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    FlatButton(
-                                      onPressed: () {
-                                        _recuperarImagem(true);
-                                      },
-                                      child: Text(
-                                        'Câmera',
-                                        style: TextStyle(
-                                          fontFamily: 'Roboto',
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15,
-                                          color: Color(0XFF9F705B),
-                                        ),
-                                      ),
-                                    ),
-                                    FlatButton(
-                                      onPressed: () {
-                                        _recuperarImagem(false);
-                                      },
-                                      child: Text('Galeria',
-                                          style: TextStyle(
-                                            fontFamily: 'Roboto',
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 15,
-                                            color: Color(0XFF9F705B),
-                                          )),
-                                    )
-                                  ],
-                                ),
-                                TextFormField(
-                                  controller: nomeControlller,
-                                  decoration: InputDecoration(
-                                    hintText: 'Nome',
-                                    hintStyle: TextStyle(
-                                      fontFamily: 'Roboto',
-                                      fontSize: 15,
-                                      color: Color(0XFF6F5A5B),
-                                    ),
-                                  ),
-                                  style: TextStyle(
-                                      fontFamily: 'Roboto',
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15,
-                                      color: Color(0XFF9F705B)),
-                                  keyboardType: TextInputType.text,
-                                  validator: (text) {
-                                    if (text.isEmpty)
-                                      return "Nome é obrigatório!";
-                                  },
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-//                                Row(
-//                                  mainAxisSize: MainAxisSize.min, // see 3
-//                                  crossAxisAlignment: CrossAxisAlignment.start,
-//                                  children: <Widget>[
-//                                    Flexible( // see 3
-//                                      child: DropdownButtonHideUnderline(
-//                                        child: DropdownButton(
-//                                          //value: selected,
-//                                          items: listaEspecialidade,
-//                                          onChanged: (value) {
-//                                            especialidadeControlller.text =
-//                                                value;
-//                                            setState(() {
-//
-//                                            });
-//                                          },
-//                                        ),
-//                                      ),
-//                                    ),
-//                                    Flexible(
-//                                      child: TextFormField(
-//                                        controller: especialidadeControlller,
-//                                        decoration: InputDecoration(
-//                                          hintText: 'Especialidade',
-//                                          hintStyle: TextStyle(
-//                                            fontFamily: 'Roboto',
-//                                            fontSize: 15,
-//                                            color: Color(0XFF6F5A5B),
-//                                          ),
-//                                        ),
-//                                        style: TextStyle(
-//                                            fontFamily: 'Roboto',
-//                                            fontWeight: FontWeight.bold,
-//                                            fontSize: 15,
-//                                            color: Color(0XFF9F705B)),
-//                                        keyboardType: TextInputType.text,
-//                                        validator: (text) {
-//                                          if (text.isEmpty)
-//                                            return "Especialidade é obrigatório!";
-//                                        },
-//                                      ),
-//                                    ),
-//                                  ],
-//                                ),
-                                TextFormField(
-                                  controller: especialidadeControlller,
-                                  decoration: InputDecoration(
-                                    suffix: DropdownButtonHideUnderline(
-                                      child: DropdownButton(
-                                        //value: selected,
-                                        items: listaEspecialidade,
-                                        onChanged: (value) {
-                                          especialidadeControlller.text = value;
-                                          setState(() {});
-                                        },
-                                      ),
-                                    ),
-                                    hintText: 'Especialidade',
-                                    hintStyle: TextStyle(
-                                      fontFamily: 'Roboto',
-                                      fontSize: 15,
-                                      color: Color(0XFF6F5A5B),
-                                    ),
-                                  ),
-                                  style: TextStyle(
-                                      fontFamily: 'Roboto',
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15,
-                                      color: Color(0XFF9F705B)),
-                                  keyboardType: TextInputType.text,
-                                  validator: (text) {
-                                    if (text.isEmpty)
-                                      return "Especialidade é obrigatório!";
-                                  },
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                TextFormField(
-                                  controller: descricaoControlller,
-                                  maxLines: 4,
-                                  decoration: InputDecoration(
-                                    hintText: 'Descrição',
-                                    hintStyle: TextStyle(
-                                      fontFamily: 'Roboto',
-                                      fontSize: 15,
-                                      color: Color(0XFF6F5A5B),
-                                    ),
-                                  ),
-                                  style: TextStyle(
-                                      fontFamily: 'Roboto',
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15,
-                                      color: Color(0XFF9F705B)),
-                                  keyboardType: TextInputType.text,
-                                  validator: (text) {
-                                    if (text.isEmpty)
-                                      return "Descrição é obrigatório!";
-                                  },
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                TextFormField(
-                                  controller: idadeController,
-                                  decoration: InputDecoration(
-                                    hintText: 'Idade',
-                                    hintStyle: TextStyle(
-                                      fontFamily: 'Roboto',
-                                      fontSize: 15,
-                                      color: Color(0XFF6F5A5B),
-                                    ),
-                                  ),
-                                  style: TextStyle(
-                                      fontFamily: 'Roboto',
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15,
-                                      color: Color(0XFF9F705B)),
-                                  validator: (text) {
-                                    if (text.isEmpty)
-                                      return "Idade é obrigatório!";
-                                  },
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                TextFormField(
-                                  controller: alturaController,
-                                  decoration: InputDecoration(
-                                    hintText: 'Altura',
-                                    hintStyle: TextStyle(
-                                      fontFamily: 'Roboto',
-                                      fontSize: 15,
-                                      color: Color(0XFF6F5A5B),
-                                    ),
-                                  ),
-                                  style: TextStyle(
-                                      fontFamily: 'Roboto',
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15,
-                                      color: Color(0XFF9F705B)),
-                                  validator: (text) {
-                                    if (text.isEmpty)
-                                      return "Altura é obrigatório!";
-                                  },
-                                ),
-                                SizedBox(
-                                  height: 15,
-                                ),
-                                RaisedButton(
-                                  color: Color(0XFF9F705B),
-                                  child: Container(
-                                    alignment: Alignment.center,
-                                    width: double.infinity,
-                                    child: Text(
-                                      'Gravar Dados',
-                                      style: TextStyle(
-                                          fontFamily: 'Roboto',
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15,
-                                          color: Colors.white),
-                                    ),
-                                  ),
-                                  onPressed: () {
-                                    if (_formKeyJogadores.currentState
-                                        .validate()) {
-                                      if (_image != null) {
-                                        if (_statusUpload == "") {
-                                          _cadastrarJogador(
-                                              nomeControlller.text,
-                                              especialidadeControlller.text,
-                                              descricaoControlller.text,
-                                              idadeController.text,
-                                              alturaController.text,
-                                              _urlImagemRecuperada);
-
-                                          nomeControlller.text = '';
-                                          especialidadeControlller.text = '';
-                                          descricaoControlller.text = '';
-                                          idadeController.text = '';
-                                          alturaController.text = '';
-                                          _image = null;
-                                          _urlImagemRecuperada = null;
-
-                                          setState(() {
-                                            listarJogadores();
-                                          });
-
-                                          final snackBar = SnackBar(
-                                            content: Text(
-                                                'Dados gravado com sucesso!'),
-                                            action: SnackBarAction(
-                                              label: 'Desfazer',
-                                              onPressed: () {
-                                                // Some code to undo the change.
-                                              },
-                                            ),
-                                          );
-
-                                          Scaffold.of(context)
-                                              .showSnackBar(snackBar);
-                                        } else {
-                                          final snackBar = SnackBar(
-                                            content: Text(
-                                                'Imagem ainda não carregada!'),
-                                          );
-
-                                          Scaffold.of(context)
-                                              .showSnackBar(snackBar);
-                                        }
-                                      } else {
-                                        final snackBar = SnackBar(
-                                          content: Text('Carregar imagem...'),
-                                        );
-
-                                        Scaffold.of(context)
-                                            .showSnackBar(snackBar);
-                                      }
-                                    }
-                                  },
-                                )
-                              ],
-                            ),
-                          )),
                     ),
+//                    leading: Container(
+//                      height: 45.0,
+//                      width: 45.0,
+//                      decoration: new BoxDecoration(
+//                        shape: BoxShape.circle,
+//                      ),
+//                      child: CachedNetworkImage(
+//                        placeholder: (context, url) =>
+//                            CircularProgressIndicator(),
+//                        imageUrl: doc["foto"] != null ? doc["foto"] : null,
+//                      ),
+//                    ),
+//                    leading: CircleAvatar(
+//                      child: CachedNetworkImage(
+//                        placeholder: (context, url) =>
+//                            CircularProgressIndicator(),
+//                        imageUrl: doc["foto"] != null ? doc["foto"] : null,
+//                      ),
+//                      backgroundColor: Colors.grey,
+////                        backgroundImage: doc["foto"] != null
+////                            ? NetworkImage(doc["foto"])
+////                            : null
+//                    ),
+                    title: Text(
+                      doc["nome"],
+                      style: TextStyle(
+                          fontFamily: 'Roboto',
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                          color: Color(0XFF6F5A5B)),
+                    ),
+                    subtitle: Text(
+                      doc["especialidade"] +
+                          " | " +
+                          doc["idade"] +
+                          " anos | " +
+                          doc["altura"] +
+                          " de altura",
+                      style: TextStyle(
+                          fontFamily: 'Roboto',
+                          color: Colors.grey,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14),
+                      maxLines: 4,
+                    ),
+//                              trailing: GestureDetector(
+//                                onTap: () {},
+//                                child: Icon(Icons.edit),
+//                              ),
                   ),
                 ),
-                FutureBuilder<List<Jogadores>>(
-                    future: listarJogadores(),
-                    builder: (context, snapshot) {
-                      switch (snapshot.connectionState) {
-                        case ConnectionState.none:
-                        case ConnectionState.waiting:
-                          return Center(
-                            child: CircularProgressIndicator(),
-                          );
-                          break;
-                        case ConnectionState.active:
-                        case ConnectionState.done:
-                          return ListView.builder(
-                            itemCount: snapshot.data.length,
-                            itemBuilder: (_, indice) {
-                              List<Jogadores> listaItens = snapshot.data;
-                              Jogadores jogadores = listaItens[indice];
-
-                              return Padding(
-                                padding: const EdgeInsets.all(2.0),
-                                child: Card(
-                                  child: ListTile(
-                                    onTap: () {
-                                      Navigator.push(context,
-                                          MaterialPageRoute(builder: (context) {
-                                        return JogadoresDetalhes(
-                                          nomeJogador: jogadores.nome,
-                                          caminhoFoto:
-                                              jogadores.caminhoFoto != null
-                                                  ? jogadores.caminhoFoto
-                                                  : null,
-                                          especialidade:
-                                              jogadores.especialidade,
-                                          descricaoJogador: jogadores.descricao,
-                                          idadeJogador: jogadores.idade,
-                                          alturaJogador: jogadores.altura,
-                                        );
-                                      }));
-                                    },
-                                    contentPadding:
-                                        EdgeInsets.fromLTRB(16, 8, 16, 8),
-                                    leading: CircleAvatar(
-                                        backgroundColor: Colors.grey,
-                                        backgroundImage:
-                                            jogadores.caminhoFoto != null
-                                                ? NetworkImage(
-                                                    jogadores.caminhoFoto)
-                                                : null),
-                                    title: Text(
-                                      jogadores.nome,
-                                      style: TextStyle(
-                                          fontFamily: 'Roboto',
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                          color: Color(0XFF6F5A5B)),
-                                    ),
-                                    subtitle: Text(
-                                      jogadores.especialidade +
-                                          " | " +
-                                          jogadores.idade +
-                                          " anos | " +
-                                          jogadores.altura +
-                                          " de altura",
-                                      style: TextStyle(
-                                          fontFamily: 'Roboto',
-                                          color: Colors.grey,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 14),
-                                      maxLines: 4,
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
-                          );
-                          break;
-                      }
-                    })
-              ],
-            ),
-          ),
-        ),
+              );
+            },
+          );
+        },
       ),
     );
   }

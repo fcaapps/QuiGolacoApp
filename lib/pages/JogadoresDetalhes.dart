@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:quigolaco/pages/JogadoresEdit.dart';
 
@@ -84,14 +85,28 @@ class JogadoresDetalhes extends StatelessWidget {
                         BoxShadow(color: Colors.black54, blurRadius: 8)
                       ]),
                   child: Center(
-                    child: CircleAvatar(
-                      radius: 56,
-                      backgroundColor: Colors.grey,
-                      backgroundImage: caminhoFoto != null
-                          ? NetworkImage(caminhoFoto)
-                          : null,
+                    child: ClipOval(
+                      child: CachedNetworkImage(
+                        placeholder: (context, url) =>
+                            CircularProgressIndicator(),
+                        imageUrl: caminhoFoto != null
+                            ? caminhoFoto
+                            : null,
+                        width: 110,
+                        height: 110,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
+//                  child: Center(
+//                    child: CircleAvatar(
+//                      radius: 56,
+//                      backgroundColor: Colors.grey,
+//                      backgroundImage: caminhoFoto != null
+//                          ? NetworkImage(caminhoFoto)
+//                          : null,
+//                    ),
+//                  ),
                 ),
               ],
             ),
