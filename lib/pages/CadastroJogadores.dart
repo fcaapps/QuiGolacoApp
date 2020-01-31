@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:quigolaco/model/Jogadores.dart';
 import 'package:quigolaco/pages/componentes/Component.dart';
+import 'package:date_format/date_format.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -100,16 +101,65 @@ class _CadastroJogadoresState extends State<CadastroJogadores> with Component {
     print(_urlImagemRecuperada);
   }
 
-  _cadastrarJogador(String nome, String especialidade, String descricao,
-      String idade, String altura, String foto) {
-    db.collection("jogadores").add({
+  String idDocumento;
+
+  _cadastrarJogador(
+      String nome,
+      String especialidade,
+      String descricao,
+      String idade,
+      String altura,
+      String foto,
+      String numGols,
+      String numAssistencias,
+      String numDefesas,
+      String dtcadastro,
+      int seq) async {
+    //Coleção Jogadores
+    db.collection("jogadores").document(nome).setData({
       "nome": nome,
       "especialidade": especialidade,
       "descricao": descricao,
       "idade": idade,
       "altura": altura,
-      "foto": foto
+      "foto": foto,
+      "dtcadastro": dtcadastro,
+      "seq": seq
     });
+
+//    var ref = db
+//        .collection("jogadores")
+//        .where("nome", isEqualTo: nome)
+//        .getDocuments();
+//
+//    ref.then((v) {
+//      idDocumento = v.documents[0].documentID;
+//      print(idDocumento);
+//    });
+
+    //Coleção Jogadores/Gols
+    db
+        .collection("jogadores")
+        .document(nome)
+        .collection("gols")
+        .document()
+        .setData({"data": DateTime.now(), "numGols": numGols});
+
+    //Coleção Jogadores/Assistências
+    db
+        .collection("jogadores")
+        .document(nome)
+        .collection("assistencias")
+        .document()
+        .setData({"data": DateTime.now(), "numAssistencias": numAssistencias});
+
+    //Coleção Jogadores/Defesas
+    db
+        .collection("jogadores")
+        .document(nome)
+        .collection("defesas")
+        .document()
+        .setData({"data": DateTime.now(), "numDefesas": numDefesas});
   }
 
   Future<List<Jogadores>> listarJogadores() async {
@@ -172,34 +222,42 @@ class _CadastroJogadoresState extends State<CadastroJogadores> with Component {
             boxShadow: <BoxShadow>[
               BoxShadow(color: Colors.black54, blurRadius: 2)
             ]),
-        margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        margin: EdgeInsets.fromLTRB(10, 30, 10, 10),
         child: Material(
           child: Container(
             child: SingleChildScrollView(
               child: Center(
                 child: Padding(
-                    padding: EdgeInsets.all(15),
+                    padding: EdgeInsets.all(10),
                     child: Form(
                       key: _formKeyJogadores,
                       child: Column(
                         children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.only(top: 10),
-                          ),
-                          CircleAvatar(
-                            child: Text(
-                              _statusUpload,
-                              style: TextStyle(
-                                  fontFamily: 'Roboto',
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15,
-                                  color: Colors.white),
+//                          Padding(
+//                            padding: EdgeInsets.only(top: 10),
+//                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                                color: Color(0XFF9F705B),
+                                borderRadius: BorderRadius.circular(5)),
+                            alignment: Alignment.center,
+                            height: 160,
+                            width: double.infinity,
+                            child: CircleAvatar(
+                              child: Text(
+                                _statusUpload,
+                                style: TextStyle(
+                                    fontFamily: 'Roboto',
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15,
+                                    color: Colors.white),
+                              ),
+                              radius: 56,
+                              backgroundColor: Colors.grey,
+                              backgroundImage: _urlImagemRecuperada != null
+                                  ? NetworkImage(_urlImagemRecuperada)
+                                  : null,
                             ),
-                            radius: 80,
-                            backgroundColor: Colors.grey,
-                            backgroundImage: _urlImagemRecuperada != null
-                                ? NetworkImage(_urlImagemRecuperada)
-                                : null,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -307,7 +365,8 @@ class _CadastroJogadoresState extends State<CadastroJogadores> with Component {
                                 color: Color(0XFF9F705B)),
                             keyboardType: TextInputType.text,
                             validator: (text) {
-                              if (text.isEmpty) return "Descrição é obrigatório!";
+                              if (text.isEmpty)
+                                return "Descrição é obrigatório!";
                             },
                           ),
                           SizedBox(
@@ -357,6 +416,73 @@ class _CadastroJogadoresState extends State<CadastroJogadores> with Component {
                           SizedBox(
                             height: 15,
                           ),
+                          TextFormField(
+                            controller: numGolsController,
+                            decoration: InputDecoration(
+                              hintText: 'Gols',
+                              hintStyle: TextStyle(
+                                fontFamily: 'Roboto',
+                                fontSize: 15,
+                                color: Color(0XFF6F5A5B),
+                              ),
+                            ),
+                            style: TextStyle(
+                                fontFamily: 'Roboto',
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                                color: Color(0XFF9F705B)),
+                            validator: (text) {
+                              if (text.isEmpty) return "Gols é obrigatório!";
+                            },
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          TextFormField(
+                            controller: numAssistController,
+                            decoration: InputDecoration(
+                              hintText: 'Assistências',
+                              hintStyle: TextStyle(
+                                fontFamily: 'Roboto',
+                                fontSize: 15,
+                                color: Color(0XFF6F5A5B),
+                              ),
+                            ),
+                            style: TextStyle(
+                                fontFamily: 'Roboto',
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                                color: Color(0XFF9F705B)),
+                            validator: (text) {
+                              if (text.isEmpty)
+                                return "Assistências é obrigatório!";
+                            },
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          TextFormField(
+                            controller: numDefesasController,
+                            decoration: InputDecoration(
+                              hintText: 'Defesas',
+                              hintStyle: TextStyle(
+                                fontFamily: 'Roboto',
+                                fontSize: 15,
+                                color: Color(0XFF6F5A5B),
+                              ),
+                            ),
+                            style: TextStyle(
+                                fontFamily: 'Roboto',
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                                color: Color(0XFF9F705B)),
+                            validator: (text) {
+                              if (text.isEmpty) return "Defesas é obrigatório!";
+                            },
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
@@ -378,7 +504,9 @@ class _CadastroJogadoresState extends State<CadastroJogadores> with Component {
                                   Navigator.of(context).pop();
                                 },
                               ),
-                              SizedBox(width: 10,),
+                              SizedBox(
+                                width: 10,
+                              ),
                               RaisedButton(
                                 color: Color(0XFF9F705B),
                                 child: Container(
@@ -393,8 +521,19 @@ class _CadastroJogadoresState extends State<CadastroJogadores> with Component {
                                         color: Colors.white),
                                   ),
                                 ),
-                                onPressed: () {
-                                  if (_formKeyJogadores.currentState.validate()) {
+                                onPressed: () async {
+
+                                  QuerySnapshot querySnapshotDefesas = await db
+                                      .collection("jogadores")
+                                      .getDocuments();
+
+                                  int count = 0;
+                                  querySnapshotDefesas.documents.forEach((d) {
+                                    count++;
+                                  });
+
+                                  if (_formKeyJogadores.currentState
+                                      .validate()) {
                                     if (_image != null) {
                                       if (_statusUpload == "") {
                                         _cadastrarJogador(
@@ -403,7 +542,22 @@ class _CadastroJogadoresState extends State<CadastroJogadores> with Component {
                                             descricaoControlller.text,
                                             idadeController.text,
                                             alturaController.text,
-                                            _urlImagemRecuperada);
+                                            _urlImagemRecuperada,
+                                            numGolsController.text,
+                                            numAssistController.text,
+                                            numDefesasController.text,
+                                            formatDate(DateTime.now(), [
+                                              dd,
+                                              '/',
+                                              mm,
+                                              '/',
+                                              yyyy,
+                                              ' ',
+                                              HH,
+                                              ':',
+                                              nn
+                                            ]),
+                                            count + 1);
 
                                         nomeControlller.text = '';
                                         especialidadeControlller.text = '';
@@ -414,14 +568,14 @@ class _CadastroJogadoresState extends State<CadastroJogadores> with Component {
                                         _urlImagemRecuperada = null;
 
                                         Navigator.pop(context);
-
                                       } else {
                                         final snackBar = SnackBar(
-                                          content:
-                                          Text('Imagem ainda não carregada!'),
+                                          content: Text(
+                                              'Imagem ainda não carregada!'),
                                         );
 
-                                        Scaffold.of(context).showSnackBar(snackBar);
+                                        Scaffold.of(context)
+                                            .showSnackBar(snackBar);
                                       }
                                     } else {
                                       showDialog(
@@ -430,7 +584,8 @@ class _CadastroJogadoresState extends State<CadastroJogadores> with Component {
                                           return AlertDialog(
                                             elevation: 10,
                                             shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(10.0))),
                                             title: Text(
                                               'Aviso',
                                               style: TextStyle(
@@ -457,14 +612,17 @@ class _CadastroJogadoresState extends State<CadastroJogadores> with Component {
                                                   width: 30,
                                                   decoration: BoxDecoration(
                                                       color: Color(0XFF9F705B),
-                                                      borderRadius: BorderRadius.circular(100)),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              100)),
                                                   child: Center(
                                                     child: Text(
                                                       'Ok',
                                                       style: TextStyle(
                                                           fontSize: 15,
                                                           fontFamily: 'Roboto',
-                                                          fontWeight: FontWeight.bold,
+                                                          fontWeight:
+                                                              FontWeight.bold,
                                                           color: Colors.white),
                                                     ),
                                                   ),

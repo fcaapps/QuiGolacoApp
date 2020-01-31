@@ -168,6 +168,83 @@ class _JogadoresPageState extends State<JogadoresPage> {
     ));
   }
 
+  String numGols;
+  String numAssistencias;
+  String numDefesas;
+
+  Future _recuperaGols(String nomeJogador) async {
+    QuerySnapshot querySnapshotGols = await db
+        .collection("jogadores")
+        .document(nomeJogador)
+        .collection("gols")
+        .getDocuments();
+
+    int numG = 0;
+    querySnapshotGols.documents.forEach((d) {
+      numG += int.parse(d.data["numGols"]);
+      print("laço: " + numG.toString());
+    });
+
+    numGols = numG.toString();
+
+    print("numGols Interno: " + numGols);
+  }
+
+  Future _recuperarGAD(String nomeJogador) async {
+//
+//    var ref = db
+//        .collection("jogadores")
+//        .where("nome", isEqualTo: nomeJogador)
+//        .getDocuments();
+//
+//    ref.then((v) {
+//      idDocumento = v.documents[0].documentID;
+//      print(idDocumento);
+//    });
+
+    //Gols
+    QuerySnapshot querySnapshotGols = await db
+        .collection("jogadores")
+        .document(nomeJogador)
+        .collection("gols")
+        .getDocuments();
+
+    int numG = 0;
+    querySnapshotGols.documents.forEach((d) {
+      numG += int.parse(d.data["numGols"]);
+    });
+
+    numGols = numG.toString();
+
+    //Assistencias
+    QuerySnapshot querySnapshotAssist = await db
+        .collection("jogadores")
+        .document(nomeJogador)
+        .collection("assistencias")
+        .getDocuments();
+
+    int numA = 0;
+    querySnapshotAssist.documents.forEach((d) {
+      numA += int.parse(d.data["numAssistencias"]);
+    });
+
+    numAssistencias = numA.toString();
+
+    //Defesas
+    QuerySnapshot querySnapshotDefesas = await db
+        .collection("jogadores")
+        .document(nomeJogador)
+        .collection("defesas")
+        .getDocuments();
+
+    int numD = 0;
+    querySnapshotDefesas.documents.forEach((d) {
+      numD += int.parse(d.data["numDefesas"]);
+    });
+
+    numDefesas = numD.toString();
+  }
+
   @override
   Widget build(BuildContext context) {
     loadEspecialidade();
@@ -189,7 +266,9 @@ class _JogadoresPageState extends State<JogadoresPage> {
                 padding: const EdgeInsets.all(2.0),
                 child: Card(
                   child: ListTile(
-                    onTap: () {
+                    onTap: () async {
+                      await _recuperarGAD(doc["nome"]);
+
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) {
                         return JogadoresDetalhes(
@@ -199,6 +278,9 @@ class _JogadoresPageState extends State<JogadoresPage> {
                           descricaoJogador: doc["descricao"],
                           idadeJogador: doc["idade"],
                           alturaJogador: doc["altura"],
+                          numGols: numGols ?? '0',
+                          numAssistencias: numAssistencias ?? '0',
+                          numDefesas: numDefesas ?? '0',
                         );
                       }));
                     },
