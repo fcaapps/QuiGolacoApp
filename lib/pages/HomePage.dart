@@ -13,9 +13,14 @@ import 'package:quigolaco/widgets/DrawerPersonalizado.dart';
 import 'drawer/GolsPage.dart';
 import 'drawer/JogadoresPage.dart';
 
+String ordenacao = "seq";
+bool isDescending = false;
+
 class HomePage extends StatefulWidget {
+
   final String usuarioL;
   final int indexPage;
+
 
   const HomePage({Key key, this.usuarioL, this.indexPage}) : super(key: key);
 
@@ -24,6 +29,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+
+
   bool visivel = false;
   String usuario;
 
@@ -56,6 +64,8 @@ class _HomePageState extends State<HomePage> {
 
   PageController _pageControl = PageController(initialPage: 0);
 
+  bool ordemNome = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,7 +74,6 @@ class _HomePageState extends State<HomePage> {
         usuario: this.widget.usuarioL,
         pageController: _pageControl,
         onPressed: (index) {
-          print("index: " + index.toString());
           _keyScaffold.currentState.openEndDrawer();
           _pageControl.jumpToPage(index);
           if (index == 1) {
@@ -97,52 +106,11 @@ class _HomePageState extends State<HomePage> {
                     opaque: false,
                     pageBuilder: (BuildContext context, _, __) =>
                         CadastroJogadores()));
-//                print("Cadastro de Jogadores");
-//                showDialog(
-//                    context: context,
-//                    builder: (context) {
-//                      return AlertDialog(
-//                        elevation: 1,
-//                        shape: RoundedRectangleBorder(
-//                            borderRadius:
-//                                BorderRadius.all(Radius.circular(5.0))),
-//                        title: Text(
-//                          'Cadastro de Jogadores',
-//                          style: TextStyle(
-//                              fontSize: 20,
-//                              fontFamily: 'Roboto',
-//                              color: Color(0XFF365A7D),
-//                              fontWeight: FontWeight.bold),
-//                        ),
-//                        content: CadastroJogadores(),
-//                        actions: <Widget>[
-//                          FlatButton(
-//                            onPressed: () {},
-//                            child: Container(
-//                              height: 30,
-//                              width: 30,
-//                              decoration: BoxDecoration(
-//                                  color: Color(0XFF365A7D),
-//                                  borderRadius: BorderRadius.circular(100)),
-//                              child: Center(
-//                                child: Text(
-//                                  'Ok',
-//                                  style: TextStyle(
-//                                      fontSize: 15,
-//                                      fontFamily: 'Roboto',
-//                                      fontWeight: FontWeight.bold,
-//                                      color: Colors.white),
-//                                ),
-//                              ),
-//                            ),
-//                          )
-//                        ],
-//                      );
-//                    });
               },
               icon: Icon(Icons.add),
             ),
-          )
+          ),
+          SizedBox(width: 10,)
         ],
         elevation: 0,
 //        automaticallyImplyLeading: false,
@@ -172,14 +140,6 @@ class _HomePageState extends State<HomePage> {
         controller: _pageControl,
         children: pages,
       ),
-//      bottomNavigationBar: BottomAppBar(
-//          color: Color(0XFF4E7CA0),
-//          child: Padding(
-//            padding: EdgeInsets.all(16),
-//            child: Container(
-//              height: 20,
-//            ),
-//          )),
       bottomNavigationBar: BottomNavigationBar(
           onTap: (index) {
             _keyScaffold.currentState.openEndDrawer();

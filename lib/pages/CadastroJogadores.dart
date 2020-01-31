@@ -216,432 +216,421 @@ class _CadastroJogadoresState extends State<CadastroJogadores> with Component {
   Widget build(BuildContext context) {
     loadEspecialidade();
     return Container(
-        decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: <BoxShadow>[
-              BoxShadow(color: Colors.black54, blurRadius: 2)
-            ]),
-        margin: EdgeInsets.fromLTRB(10, 30, 10, 10),
+        margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         child: Material(
-          child: Container(
-            child: SingleChildScrollView(
-              child: Center(
-                child: Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Form(
-                      key: _formKeyJogadores,
-                      child: Column(
-                        children: <Widget>[
-//                          Padding(
-//                            padding: EdgeInsets.only(top: 10),
-//                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                                color: Color(0XFF9F705B),
-                                borderRadius: BorderRadius.circular(5)),
-                            alignment: Alignment.center,
-                            height: 160,
-                            width: double.infinity,
-                            child: CircleAvatar(
-                              child: Text(
-                                _statusUpload,
-                                style: TextStyle(
-                                    fontFamily: 'Roboto',
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15,
-                                    color: Colors.white),
-                              ),
-                              radius: 56,
-                              backgroundColor: Colors.grey,
-                              backgroundImage: _urlImagemRecuperada != null
-                                  ? NetworkImage(_urlImagemRecuperada)
-                                  : null,
+          child: SingleChildScrollView(
+            child: Center(
+              child: Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Form(
+                    key: _formKeyJogadores,
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          decoration: BoxDecoration(
+                              color: Color(0XFF9F705B),
+                              borderRadius: BorderRadius.circular(5)),
+                          alignment: Alignment.center,
+                          height: 200,
+                          width: double.infinity,
+                          child: CircleAvatar(
+                            child: Text(
+                              _statusUpload,
+                              style: TextStyle(
+                                  fontFamily: 'Roboto',
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                  color: Colors.white),
                             ),
+                            radius: 80,
+                            backgroundColor: Colors.grey,
+                            backgroundImage: _urlImagemRecuperada != null
+                                ? NetworkImage(_urlImagemRecuperada)
+                                : null,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              FlatButton(
-                                onPressed: () {
-                                  _recuperarImagem(true);
-                                },
-                                child: Text(
-                                  'Câmera',
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            FlatButton(
+                              onPressed: () {
+                                _recuperarImagem(true);
+                              },
+                              child: Text(
+                                'Câmera',
+                                style: TextStyle(
+                                  fontFamily: 'Roboto',
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                  color: Color(0XFF9F705B),
+                                ),
+                              ),
+                            ),
+                            FlatButton(
+                              onPressed: () {
+                                _recuperarImagem(false);
+                              },
+                              child: Text('Galeria',
                                   style: TextStyle(
                                     fontFamily: 'Roboto',
                                     fontWeight: FontWeight.bold,
                                     fontSize: 15,
                                     color: Color(0XFF9F705B),
-                                  ),
-                                ),
-                              ),
-                              FlatButton(
-                                onPressed: () {
-                                  _recuperarImagem(false);
+                                  )),
+                            )
+                          ],
+                        ),
+                        TextFormField(
+                          controller: nomeControlller,
+                          decoration: InputDecoration(
+                            hintText: 'Nome',
+                            hintStyle: TextStyle(
+                              fontFamily: 'Roboto',
+                              fontSize: 20,
+                              color: Color(0XFF6F5A5B),
+                            ),
+                          ),
+                          style: TextStyle(
+                              fontFamily: 'Roboto',
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              color: Color(0XFF9F705B)),
+                          keyboardType: TextInputType.text,
+                          validator: (text) {
+                            if (text.isEmpty) return "Nome é obrigatório!";
+                          },
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        TextFormField(
+                          controller: especialidadeControlller,
+                          decoration: InputDecoration(
+                            suffix: DropdownButtonHideUnderline(
+                              child: DropdownButton(
+                                //value: selected,
+                                items: listaEspecialidade,
+                                onChanged: (value) {
+                                  especialidadeControlller.text = value;
+                                  setState(() {});
                                 },
-                                child: Text('Galeria',
-                                    style: TextStyle(
+                              ),
+                            ),
+                            hintText: 'Especialidade',
+                            hintStyle: TextStyle(
+                              fontFamily: 'Roboto',
+                              fontSize: 20,
+                              color: Color(0XFF6F5A5B),
+                            ),
+                          ),
+                          style: TextStyle(
+                              fontFamily: 'Roboto',
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              color: Color(0XFF9F705B)),
+                          keyboardType: TextInputType.text,
+                          validator: (text) {
+                            if (text.isEmpty)
+                              return "Especialidade é obrigatório!";
+                          },
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        TextFormField(
+                          controller: descricaoControlller,
+                          maxLines: 3,
+                          decoration: InputDecoration(
+                            hintText: 'Descrição',
+                            hintStyle: TextStyle(
+                              fontFamily: 'Roboto',
+                              fontSize: 20,
+                              color: Color(0XFF6F5A5B),
+                            ),
+                          ),
+                          style: TextStyle(
+                              fontFamily: 'Roboto',
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              color: Color(0XFF9F705B)),
+                          keyboardType: TextInputType.text,
+                          validator: (text) {
+                            if (text.isEmpty)
+                              return "Descrição é obrigatório!";
+                          },
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        TextFormField(
+                          controller: idadeController,
+                          decoration: InputDecoration(
+                            hintText: 'Idade',
+                            hintStyle: TextStyle(
+                              fontFamily: 'Roboto',
+                              fontSize: 20,
+                              color: Color(0XFF6F5A5B),
+                            ),
+                          ),
+                          style: TextStyle(
+                              fontFamily: 'Roboto',
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              color: Color(0XFF9F705B)),
+                          validator: (text) {
+                            if (text.isEmpty) return "Idade é obrigatório!";
+                          },
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        TextFormField(
+                          controller: alturaController,
+                          decoration: InputDecoration(
+                            hintText: 'Altura',
+                            hintStyle: TextStyle(
+                              fontFamily: 'Roboto',
+                              fontSize: 20,
+                              color: Color(0XFF6F5A5B),
+                            ),
+                          ),
+                          style: TextStyle(
+                              fontFamily: 'Roboto',
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              color: Color(0XFF9F705B)),
+                          validator: (text) {
+                            if (text.isEmpty) return "Altura é obrigatório!";
+                          },
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        TextFormField(
+                          controller: numGolsController,
+                          decoration: InputDecoration(
+                            hintText: 'Gols',
+                            hintStyle: TextStyle(
+                              fontFamily: 'Roboto',
+                              fontSize: 20,
+                              color: Color(0XFF6F5A5B),
+                            ),
+                          ),
+                          style: TextStyle(
+                              fontFamily: 'Roboto',
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              color: Color(0XFF9F705B)),
+                          validator: (text) {
+                            if (text.isEmpty) return "Gols é obrigatório!";
+                          },
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        TextFormField(
+                          controller: numAssistController,
+                          decoration: InputDecoration(
+                            hintText: 'Assistências',
+                            hintStyle: TextStyle(
+                              fontFamily: 'Roboto',
+                              fontSize: 20,
+                              color: Color(0XFF6F5A5B),
+                            ),
+                          ),
+                          style: TextStyle(
+                              fontFamily: 'Roboto',
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              color: Color(0XFF9F705B)),
+                          validator: (text) {
+                            if (text.isEmpty)
+                              return "Assistências é obrigatório!";
+                          },
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        TextFormField(
+                          controller: numDefesasController,
+                          decoration: InputDecoration(
+                            hintText: 'Defesas',
+                            hintStyle: TextStyle(
+                              fontFamily: 'Roboto',
+                              fontSize: 20,
+                              color: Color(0XFF6F5A5B),
+                            ),
+                          ),
+                          style: TextStyle(
+                              fontFamily: 'Roboto',
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              color: Color(0XFF9F705B)),
+                          validator: (text) {
+                            if (text.isEmpty) return "Defesas é obrigatório!";
+                          },
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            RaisedButton(
+                              color: Color(0XFF9F705B),
+                              child: Container(
+                                alignment: Alignment.center,
+                                width: 50,
+                                child: Text(
+                                  'Fechar',
+                                  style: TextStyle(
                                       fontFamily: 'Roboto',
                                       fontWeight: FontWeight.bold,
                                       fontSize: 15,
-                                      color: Color(0XFF9F705B),
-                                    )),
-                              )
-                            ],
-                          ),
-                          TextFormField(
-                            controller: nomeControlller,
-                            decoration: InputDecoration(
-                              hintText: 'Nome',
-                              hintStyle: TextStyle(
-                                fontFamily: 'Roboto',
-                                fontSize: 15,
-                                color: Color(0XFF6F5A5B),
-                              ),
-                            ),
-                            style: TextStyle(
-                                fontFamily: 'Roboto',
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15,
-                                color: Color(0XFF9F705B)),
-                            keyboardType: TextInputType.text,
-                            validator: (text) {
-                              if (text.isEmpty) return "Nome é obrigatório!";
-                            },
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          TextFormField(
-                            controller: especialidadeControlller,
-                            decoration: InputDecoration(
-                              suffix: DropdownButtonHideUnderline(
-                                child: DropdownButton(
-                                  //value: selected,
-                                  items: listaEspecialidade,
-                                  onChanged: (value) {
-                                    especialidadeControlller.text = value;
-                                    setState(() {});
-                                  },
+                                      color: Colors.white),
                                 ),
                               ),
-                              hintText: 'Especialidade',
-                              hintStyle: TextStyle(
-                                fontFamily: 'Roboto',
-                                fontSize: 15,
-                                color: Color(0XFF6F5A5B),
-                              ),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
                             ),
-                            style: TextStyle(
-                                fontFamily: 'Roboto',
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15,
-                                color: Color(0XFF9F705B)),
-                            keyboardType: TextInputType.text,
-                            validator: (text) {
-                              if (text.isEmpty)
-                                return "Especialidade é obrigatório!";
-                            },
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          TextFormField(
-                            controller: descricaoControlller,
-                            maxLines: 3,
-                            decoration: InputDecoration(
-                              hintText: 'Descrição',
-                              hintStyle: TextStyle(
-                                fontFamily: 'Roboto',
-                                fontSize: 15,
-                                color: Color(0XFF6F5A5B),
-                              ),
+                            SizedBox(
+                              width: 10,
                             ),
-                            style: TextStyle(
-                                fontFamily: 'Roboto',
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15,
-                                color: Color(0XFF9F705B)),
-                            keyboardType: TextInputType.text,
-                            validator: (text) {
-                              if (text.isEmpty)
-                                return "Descrição é obrigatório!";
-                            },
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          TextFormField(
-                            controller: idadeController,
-                            decoration: InputDecoration(
-                              hintText: 'Idade',
-                              hintStyle: TextStyle(
-                                fontFamily: 'Roboto',
-                                fontSize: 15,
-                                color: Color(0XFF6F5A5B),
-                              ),
-                            ),
-                            style: TextStyle(
-                                fontFamily: 'Roboto',
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15,
-                                color: Color(0XFF9F705B)),
-                            validator: (text) {
-                              if (text.isEmpty) return "Idade é obrigatório!";
-                            },
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          TextFormField(
-                            controller: alturaController,
-                            decoration: InputDecoration(
-                              hintText: 'Altura',
-                              hintStyle: TextStyle(
-                                fontFamily: 'Roboto',
-                                fontSize: 15,
-                                color: Color(0XFF6F5A5B),
-                              ),
-                            ),
-                            style: TextStyle(
-                                fontFamily: 'Roboto',
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15,
-                                color: Color(0XFF9F705B)),
-                            validator: (text) {
-                              if (text.isEmpty) return "Altura é obrigatório!";
-                            },
-                          ),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          TextFormField(
-                            controller: numGolsController,
-                            decoration: InputDecoration(
-                              hintText: 'Gols',
-                              hintStyle: TextStyle(
-                                fontFamily: 'Roboto',
-                                fontSize: 15,
-                                color: Color(0XFF6F5A5B),
-                              ),
-                            ),
-                            style: TextStyle(
-                                fontFamily: 'Roboto',
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15,
-                                color: Color(0XFF9F705B)),
-                            validator: (text) {
-                              if (text.isEmpty) return "Gols é obrigatório!";
-                            },
-                          ),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          TextFormField(
-                            controller: numAssistController,
-                            decoration: InputDecoration(
-                              hintText: 'Assistências',
-                              hintStyle: TextStyle(
-                                fontFamily: 'Roboto',
-                                fontSize: 15,
-                                color: Color(0XFF6F5A5B),
-                              ),
-                            ),
-                            style: TextStyle(
-                                fontFamily: 'Roboto',
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15,
-                                color: Color(0XFF9F705B)),
-                            validator: (text) {
-                              if (text.isEmpty)
-                                return "Assistências é obrigatório!";
-                            },
-                          ),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          TextFormField(
-                            controller: numDefesasController,
-                            decoration: InputDecoration(
-                              hintText: 'Defesas',
-                              hintStyle: TextStyle(
-                                fontFamily: 'Roboto',
-                                fontSize: 15,
-                                color: Color(0XFF6F5A5B),
-                              ),
-                            ),
-                            style: TextStyle(
-                                fontFamily: 'Roboto',
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15,
-                                color: Color(0XFF9F705B)),
-                            validator: (text) {
-                              if (text.isEmpty) return "Defesas é obrigatório!";
-                            },
-                          ),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: <Widget>[
-                              RaisedButton(
-                                color: Color(0XFF9F705B),
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  width: 50,
-                                  child: Text(
-                                    'Fechar',
-                                    style: TextStyle(
-                                        fontFamily: 'Roboto',
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15,
-                                        color: Colors.white),
-                                  ),
+                            RaisedButton(
+                              color: Color(0XFF9F705B),
+                              child: Container(
+                                alignment: Alignment.center,
+                                width: 50,
+                                child: Text(
+                                  'Gravar',
+                                  style: TextStyle(
+                                      fontFamily: 'Roboto',
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15,
+                                      color: Colors.white),
                                 ),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
                               ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              RaisedButton(
-                                color: Color(0XFF9F705B),
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  width: 50,
-                                  child: Text(
-                                    'Gravar',
-                                    style: TextStyle(
-                                        fontFamily: 'Roboto',
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15,
-                                        color: Colors.white),
-                                  ),
-                                ),
-                                onPressed: () async {
+                              onPressed: () async {
 
-                                  QuerySnapshot querySnapshotDefesas = await db
-                                      .collection("jogadores")
-                                      .getDocuments();
+                                QuerySnapshot querySnapshot = await db
+                                    .collection("jogadores").orderBy("seq", descending: false)
+                                    .getDocuments();
 
-                                  int count = 0;
-                                  querySnapshotDefesas.documents.forEach((d) {
-                                    count++;
-                                  });
+                                int count = 0;
+                                querySnapshot.documents.forEach((d) {
+                                  count++;
+                                });
 
-                                  if (_formKeyJogadores.currentState
-                                      .validate()) {
-                                    if (_image != null) {
-                                      if (_statusUpload == "") {
-                                        _cadastrarJogador(
-                                            nomeControlller.text,
-                                            especialidadeControlller.text,
-                                            descricaoControlller.text,
-                                            idadeController.text,
-                                            alturaController.text,
-                                            _urlImagemRecuperada,
-                                            numGolsController.text,
-                                            numAssistController.text,
-                                            numDefesasController.text,
-                                            formatDate(DateTime.now(), [
-                                              dd,
-                                              '/',
-                                              mm,
-                                              '/',
-                                              yyyy,
-                                              ' ',
-                                              HH,
-                                              ':',
-                                              nn
-                                            ]),
-                                            count + 1);
+                                if (_formKeyJogadores.currentState
+                                    .validate()) {
+                                  if (_image != null) {
+                                    if (_statusUpload == "") {
+                                      _cadastrarJogador(
+                                          nomeControlller.text,
+                                          especialidadeControlller.text,
+                                          descricaoControlller.text,
+                                          idadeController.text,
+                                          alturaController.text,
+                                          _urlImagemRecuperada,
+                                          numGolsController.text,
+                                          numAssistController.text,
+                                          numDefesasController.text,
+                                          formatDate(DateTime.now(), [
+                                            dd,
+                                            '/',
+                                            mm,
+                                            '/',
+                                            yyyy,
+                                            ' ',
+                                            HH,
+                                            ':',
+                                            nn
+                                          ]),
+                                          count + 1);
 
-                                        nomeControlller.text = '';
-                                        especialidadeControlller.text = '';
-                                        descricaoControlller.text = '';
-                                        idadeController.text = '';
-                                        alturaController.text = '';
-                                        _image = null;
-                                        _urlImagemRecuperada = null;
+                                      nomeControlller.text = '';
+                                      especialidadeControlller.text = '';
+                                      descricaoControlller.text = '';
+                                      idadeController.text = '';
+                                      alturaController.text = '';
+                                      _image = null;
+                                      _urlImagemRecuperada = null;
 
-                                        Navigator.pop(context);
-                                      } else {
-                                        final snackBar = SnackBar(
-                                          content: Text(
-                                              'Imagem ainda não carregada!'),
-                                        );
-
-                                        Scaffold.of(context)
-                                            .showSnackBar(snackBar);
-                                      }
+                                      Navigator.pop(context);
                                     } else {
-                                      showDialog(
-                                        context: context,
-                                        builder: (context) {
-                                          return AlertDialog(
-                                            elevation: 10,
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(10.0))),
-                                            title: Text(
-                                              'Aviso',
-                                              style: TextStyle(
-                                                  fontSize: 20,
-                                                  fontFamily: 'Roboto',
-                                                  color: Color(0XFF9F705B),
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                            content: Text(
-                                              'Favor carregar imagem...',
-                                              style: TextStyle(
-                                                fontSize: 16,
-                                                fontFamily: 'Raleway',
+                                      final snackBar = SnackBar(
+                                        content: Text(
+                                            'Imagem ainda não carregada!'),
+                                      );
+
+                                      Scaffold.of(context)
+                                          .showSnackBar(snackBar);
+                                    }
+                                  } else {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          elevation: 10,
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(10.0))),
+                                          title: Text(
+                                            'Aviso',
+                                            style: TextStyle(
+                                                fontSize: 20,
+                                                fontFamily: 'Roboto',
                                                 color: Color(0XFF9F705B),
-                                              ),
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          content: Text(
+                                            'Favor carregar imagem...',
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              fontFamily: 'Raleway',
+                                              color: Color(0XFF9F705B),
                                             ),
-                                            actions: <Widget>[
-                                              FlatButton(
-                                                onPressed: () {
-                                                  Navigator.of(context).pop();
-                                                },
-                                                child: Container(
-                                                  height: 30,
-                                                  width: 30,
-                                                  decoration: BoxDecoration(
-                                                      color: Color(0XFF9F705B),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              100)),
-                                                  child: Center(
-                                                    child: Text(
-                                                      'Ok',
-                                                      style: TextStyle(
-                                                          fontSize: 15,
-                                                          fontFamily: 'Roboto',
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: Colors.white),
-                                                    ),
+                                          ),
+                                          actions: <Widget>[
+                                            FlatButton(
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: Container(
+                                                height: 30,
+                                                width: 30,
+                                                decoration: BoxDecoration(
+                                                    color: Color(0XFF9F705B),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            100)),
+                                                child: Center(
+                                                  child: Text(
+                                                    'Ok',
+                                                    style: TextStyle(
+                                                        fontSize: 15,
+                                                        fontFamily: 'Roboto',
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: Colors.white),
                                                   ),
                                                 ),
-                                              )
-                                            ],
-                                          );
-                                        },
-                                      );
-                                    }
+                                              ),
+                                            )
+                                          ],
+                                        );
+                                      },
+                                    );
                                   }
-                                },
-                              )
-                            ],
-                          )
-                        ],
-                      ),
-                    )),
-              ),
+                                }
+                              },
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                  )),
             ),
           ),
         ));

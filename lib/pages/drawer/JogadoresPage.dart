@@ -9,6 +9,7 @@ import 'package:quigolaco/pages/JogadoresDetalhes.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class JogadoresPage extends StatefulWidget {
+
   @override
   _JogadoresPageState createState() => _JogadoresPageState();
 }
@@ -37,32 +38,61 @@ class _JogadoresPageState extends State<JogadoresPage> {
   File imagemSelecionada;
   String _statusUpload = "";
 
-  Future<List<Jogadores>> listarJogadores() async {
-    QuerySnapshot querySnapshot =
-        await db.collection("jogadores").getDocuments();
-
-    List<Jogadores> listaJogadores = List();
-
-    for (DocumentSnapshot item in querySnapshot.documents) {
-      var dados = item.data;
-
-      Jogadores jogadores = Jogadores();
-
-      jogadores.nome = dados["nome"];
-      jogadores.especialidade = dados["especialidade"];
-      jogadores.descricao = dados["descricao"];
-      jogadores.idade = dados["idade"];
-      jogadores.altura = dados["altura"];
-      jogadores.caminhoFoto = dados["foto"];
-
-      listaJogadores.add(jogadores);
-    }
-    return listaJogadores;
-  }
+//  Future<List<Jogadores>> listarJogadores() async {
+//    QuerySnapshot querySnapshot =
+//        await db.collection("jogadores").orderBy("seq", descending: true).getDocuments();
+//
+//    List<Jogadores> listaJogadores = List();
+//
+//    for (DocumentSnapshot item in querySnapshot.documents) {
+//      var dados = item.data;
+//      print(dados);
+//
+//      Jogadores jogadores = Jogadores();
+//
+//      jogadores.nome = dados["nome"];
+//      jogadores.especialidade = dados["especialidade"];
+//      jogadores.descricao = dados["descricao"];
+//      jogadores.idade = dados["idade"];
+//      jogadores.altura = dados["altura"];
+//      jogadores.caminhoFoto = dados["foto"];
+//      jogadores.dtcadastro = dados["dtcastro"];
+//      jogadores.seq = dados["seq"];
+//
+//      listaJogadores.add(jogadores);
+//    }
+//    return listaJogadores;
+//  }
+//
+//  Future<List> listarJogadores2() async {
+//    QuerySnapshot querySnapshot =
+//    await db.collection("jogadores").orderBy("seq", descending: true).getDocuments();
+//
+//    List lista = List();
+//
+//    for (DocumentSnapshot item in querySnapshot.documents) {
+//      var dados = item.data;
+//      print(dados);
+//
+//      lista.add({
+//        "nome" : dados["nome"],
+//        "especialidade" : dados["especialidade"],
+//        "descricao" : dados["descricao"],
+//        "idade" : dados["idade"],
+//        "altura" : dados["altura"],
+//        "caminhoFoto" : dados["caminhoFoto"],
+//        "dtcadastro" : dados["dtcadastro"],
+//        "seq" : dados["seq"]
+//
+//      });
+//    }
+//    return lista;
+//  }
 
   @override
   void initState() {
-    listarJogadores();
+    //listarJogadores();
+
     super.initState();
   }
 
@@ -83,16 +113,11 @@ class _JogadoresPageState extends State<JogadoresPage> {
   }
 
   Future _uploadImagem() async {
-//    String nomefoto = nomeControlller.text.toUpperCase().substring(0, 3) +
-//        idadeController.text +
-//        ".jpg";
-
     String nomefoto =
         (DateFormat('yyyyMMddHms').format(DateTime.now())).toString() + ".jpg";
 
     FirebaseStorage storage = FirebaseStorage.instance;
     StorageReference pastaRaiz = storage.ref();
-    //print((await pastaRaiz.getDownloadURL()).toString());
     StorageReference arquivo =
         pastaRaiz.child("fotos").child("jogadores").child(nomefoto);
 
@@ -245,12 +270,58 @@ class _JogadoresPageState extends State<JogadoresPage> {
     numDefesas = numD.toString();
   }
 
+  String ordem = "seq";
+  bool isDescending = true;
+
   @override
   Widget build(BuildContext context) {
     loadEspecialidade();
+
     return Material(
-      child: StreamBuilder(
-        stream: db.collection("jogadores").snapshots(),
+        child: Scaffold(
+      appBar: AppBar(
+        title: Row(
+          children: <Widget>[
+            Text(
+              'JOGADORES',
+              style: TextStyle(
+                fontFamily: 'Raleway'
+              ),
+            )
+          ],
+        ),
+        actions: <Widget>[
+          Visibility(
+            child: IconButton(
+              onPressed: () {
+                setState(() {
+                  ordem = "nome";
+                  isDescending = false;
+                });
+              },
+              icon: Icon(Icons.sort_by_alpha),
+              tooltip: 'Ordem de Nome',
+            ),
+          ),
+          Visibility(
+            child: IconButton(
+              onPressed: () {
+                setState(() {
+                  ordem = "seq";
+                  isDescending = true;
+                });
+              },
+              icon: Icon(Icons.sort),
+              tooltip: 'Ordem de Cadastro',
+            ),
+          ),
+        ],
+      ),
+      body: StreamBuilder(
+        stream: db
+            .collection("jogadores")
+            .orderBy(ordem, descending: isDescending)
+            .snapshots(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (!snapshot.hasData)
             return const Center(
@@ -294,29 +365,6 @@ class _JogadoresPageState extends State<JogadoresPage> {
                         fit: BoxFit.cover,
                       ),
                     ),
-//                    leading: Container(
-//                      height: 45.0,
-//                      width: 45.0,
-//                      decoration: new BoxDecoration(
-//                        shape: BoxShape.circle,
-//                      ),
-//                      child: CachedNetworkImage(
-//                        placeholder: (context, url) =>
-//                            CircularProgressIndicator(),
-//                        imageUrl: doc["foto"] != null ? doc["foto"] : null,
-//                      ),
-//                    ),
-//                    leading: CircleAvatar(
-//                      child: CachedNetworkImage(
-//                        placeholder: (context, url) =>
-//                            CircularProgressIndicator(),
-//                        imageUrl: doc["foto"] != null ? doc["foto"] : null,
-//                      ),
-//                      backgroundColor: Colors.grey,
-////                        backgroundImage: doc["foto"] != null
-////                            ? NetworkImage(doc["foto"])
-////                            : null
-//                    ),
                     title: Text(
                       doc["nome"],
                       style: TextStyle(
@@ -326,18 +374,21 @@ class _JogadoresPageState extends State<JogadoresPage> {
                           color: Color(0XFF6F5A5B)),
                     ),
                     subtitle: Text(
-                      doc["especialidade"] +
-                          " | " +
-                          doc["idade"] +
-                          " anos | " +
-                          doc["altura"] +
-                          " de altura",
+                      doc["descricao"],
+                      textAlign: TextAlign.start,
+//                    subtitle: Text(
+//                      "Especialidade: " + doc["especialidade"] +
+//                          " | " +
+//                          doc["idade"] +
+//                          " anos | " +
+//                          doc["altura"] +
+//                          " de altura",
                       style: TextStyle(
                           fontFamily: 'Roboto',
                           color: Colors.grey,
                           fontWeight: FontWeight.bold,
                           fontSize: 14),
-                      maxLines: 4,
+                      maxLines: 2,
                     ),
 //                              trailing: GestureDetector(
 //                                onTap: () {},
@@ -350,6 +401,6 @@ class _JogadoresPageState extends State<JogadoresPage> {
           );
         },
       ),
-    );
+    ));
   }
 }

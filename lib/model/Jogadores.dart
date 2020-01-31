@@ -5,6 +5,8 @@ class Jogadores {
   String _idade;
   String _altura;
   String _caminhoFoto;
+  String _dtcadastro;
+  int _seq;
 
   Jogadores();
 
@@ -15,7 +17,9 @@ class Jogadores {
       "descricao": this.descricao,
       "idade" : this.idade,
       "altura" : this.altura,
-      "foto" : this.caminhoFoto
+      "foto" : this.caminhoFoto,
+      "dtcadastro" : this._dtcadastro,
+      "seq" : this._seq
     };
   }
 
@@ -53,6 +57,18 @@ class Jogadores {
 
   set caminhoFoto(String value) {
     _caminhoFoto = value;
+  }
+
+  String get dtcadastro => _dtcadastro;
+
+  set dtcadastro(String value) {
+    _dtcadastro = value;
+  }
+
+  int get seq => _seq;
+
+  set seq(int value) {
+    _seq = value;
   }
 
 }
